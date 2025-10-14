@@ -140,7 +140,80 @@ export const MESSAGES = {
     // --- Main Menu Sections ---
     SECTION_PROGRAMS: { en: "1️⃣ Academic Programs", hi: "1️⃣ शैक्षणिक कार्यक्रम" },
     SECTION_SUPPORT: { en: "2️⃣ Campus & Support", hi: "2️⃣ कैंपस और सपोर्ट" },
-    NEXT_STEP_BODY: { en: "✨ Where would you like to go next?", hi: "✨ अब आप आगे क्या देखना चाहेंगे?" },
+    NEXT_STEP_BODY: { en: "✨ ⚠ P.B.B.Sc Nursing: Only a few seats left for the 2025–26 session!
+Apply now!
+
+🕰 Last Date: 14th October
+
+📢 The leading institute of Bhilwara district in Nursing, Paramedical, and Pharmacy education.
+
+Admissions are open for P.B.B.Sc Nursing for the 2025–26 session at S.Tech Group.
+
+🎓 Our Highlights:
+
+Excellent academic results with 500+ students successfully placed.
+
+Our students are recognized at the national level in government institutions and hold prestigious positions abroad.
+
+B.Sc Nursing and P.B.B.Sc Nursing courses established since 2009.
+
+A modern campus spread over 30+ bighas with advanced laboratories and experienced faculty.
+
+Hostel facilities available for both boys and girls.
+
+Scholarships available for meritorious students.
+
+Courses offered at a very nominal fee.
+
+🎯 Courses Available:
+
+G.N.M (General Nursing and Midwifery)
+
+D. Pharmacy
+
+B.Sc (Nursing)
+
+P.B.B.Sc (Nursing)
+
+Paramedical (DMLT / DRT / DOTT / DCLT / DETCT)
+
+🌟 Recognized by: RPMC, INC, RUHS & Government of Rajasthan
+
+📍 Location: https://maps.app.goo.gl/mWbHYMdVogXwXy1H8
+
+📞 Contact us: 8386822849, 6378087099
+
+👉 Hurry up! Secure your future today!", hi: "✨ ⚠ P.B.B.SC  Nursing: सत्र 2025-26 में कुछ ही सीटें शेष!  
+तुरंत आवेदन करें!  
+
+🕰 अंतिम तिथि 14 अक्टूबर, 
+
+📢 भीलवाड़ा जिले का नर्सिंग, पैरामेडिकल एवं फार्मेसी में अग्रणी संस्थान  
+
+"S.Tech Group" में सत्र 2025-26 के लिए  P.B.B.SC  Nursing में आवेदन जारी हैं।  
+
+🎓 हमारी खासियत:  
+- सर्वश्रेष्ठ परीक्षा परिणाम एवं 500+ छात्रों को प्लेसमेंट।  
+- विद्यार्थी सरकारी संस्थानों में राष्ट्रीय स्तर पर सम्मानित एवं विदेशों में उच्च पदों पर कार्यरत।  
+- B.Sc नर्सिंग एवं PB B.Sc नर्सिंग कोर्स 2009 से स्थापित।  
+- 30 बीघा से अधिक कैंपस में आधुनिक लैब एवं अनुभवी शिक्षक।  
+- छात्र एवं छात्राओं के लिए हॉस्टल सुविधा।  
+- योग्य छात्रों के लिए छात्रवृत्ति (Scholarship) उपलब्ध।  
+- काफी नॉमिनल फीस में उपलब्ध।
+
+🎯 Courses Available:  
+- G.N.M (General Nursing and Midwifery) 
+- D. Pharmacy
+- Bsc (Nursing)
+- PBBSC (Nursing)
+- Paramedical (DMLT/DRT/DOTT/DCLT/DETCT)
+
+🌟 Recognized by RPMC, INC, RUHS & Raj. Govt.  
+
+📍 *Location: https://maps.app.goo.gl/mWbHYMdVogXwXy1H8
+📞 Contact us on: 8386822849, 6378087099  
+
+👉 जल्दी करें! सुरक्षित करें अपना भविष्य" },
     NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "એસ-ટેક कॉलेज - भीलवाड़ा" },
     BACK_BUTTON: { en: "⬅️ Back", hi: "⬅️ वापस जाएँ" },
     VIEW_ALL_PROGRAMS: { en: "📚 View Programs", hi: "📚 प्रोग्राम देखें" },
