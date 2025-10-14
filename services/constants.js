@@ -140,8 +140,8 @@ export const MESSAGES = {
     // --- Main Menu Sections ---
     SECTION_PROGRAMS: { en: "1️⃣ Academic Programs", hi: "1️⃣ शैक्षणिक कार्यक्रम" },
     SECTION_SUPPORT: { en: "2️⃣ Campus & Support", hi: "2️⃣ कैंपस और सपोर्ट" },
-   NEXT_STEP_BODY: { en: "✨ Where would you like to go next?", hi: "✨ अब आप आगे क्या देखना चाहेंगे?" },
-    NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "એસ-ટેક कॉलेज - भीलवाड़ा" },
+   NEXT_STEP_BODY: { en: "⚠ P.B.B.Sc Nursing: Only a few seats left for the 2025–26 session! Apply now! 🕰 Last Date: 14th October 📢 The leading institute of Bhilwara district in Nursing, Paramedical, and Pharmacy education.", hi: "✨ ⚠ P.B.B.SC Nursing: सत्र 2025-26 में कुछ ही सीटें शेष! तुरंत आवेदन करें! 🕰 अंतिम तिथि 14 अक्टूबर, 📢 भीलवाड़ा जिले का नर्सिंग, पैरामेडिकल एवं फार्मेसी में अग्रणी संस्थान S.Tech Group में सत्र 2025-26 के लिए P.B.B.SC Nursing में आवेदन जारी हैं।" },
+    NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "S.Tech कॉलेज - भीलवाड़ा" },
 
     NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "એસ-ટેક कॉलेज - भीलवाड़ा" },
     BACK_BUTTON: { en: "⬅️ Back", hi: "⬅️ वापस जाएँ" },
