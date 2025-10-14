@@ -204,7 +204,7 @@ Admissions are open for P.B.B.Sc Nursing for the 2025–26 session at S.Tech Gro
 📞 Contact us on: 8386822849, 6378087099
 
 👉 जल्दी करें! सुरक्षित करें अपना भविष्य`
-}
+},
 
     NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "એસ-ટેક कॉलेज - भीलवाड़ा" },
     BACK_BUTTON: { en: "⬅️ Back", hi: "⬅️ वापस जाएँ" },
