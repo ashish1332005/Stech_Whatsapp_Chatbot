@@ -431,17 +431,19 @@ export async function sendCbsiBranchSelection(to) {
         handleApiError(error, `CBSE Branch Selection Menu to ${to}`);
     }
 }
-
 export async function sendCbsiSubMenu(to, branchId) {
     const branchName = branchId === 'menu_cbse_pn' ? getLocalizedText(to, 'CBSE_PATEL_NAGAR') : getLocalizedText(to, 'CBSE_PANSAL');
     const parentIdPrefix = branchId;
     const lang = userLanguageState[to] || 'en';
 
+    // Choose a branch-specific body text key so clicking a branch shows its particular description
+    const bodyKey = branchId === 'menu_cbse_pn' ? 'CBSE_PATEL_NAGAR_BODY' : 'CBSSE_PANSAL_BODY';
+
     const listMessage = {
         messaging_product: "whatsapp", to: to, type: "interactive",
         interactive: {
             type: "list", header: { type: "text", text: branchName.substring(0, 24) + " - Details" },
-            body: { text: getLocalizedText(to, 'CBSE_BODY') },
+            body: { text: getLocalizedText(to, bodyKey) },
             footer: { text: getLocalizedText(to, 'WELCOME_FOOTER') },
             action: {
                 button: getLocalizedText(to, 'MAIN_BUTTON').substring(0, 20),
