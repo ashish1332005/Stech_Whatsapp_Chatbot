@@ -466,20 +466,40 @@ export async function sendDPharmaSubMenu(to) {
     const imageCaption = getLocalizedText(to, 'DPHARMA_HEADER');
     const lang = userLanguageState[to] || 'en';
     try {
-        const imgs = (Array.isArray(DPharmacy_lab_img) && DPharmacy_lab_img.filter(i => i.type === 'image')) || [];
-        const toSend = imgs.slice(0, 2);
-        for (const img of toSend) {
+        if (!Array.isArray(DPharmacy_lab_img)) throw new Error("DPharmacy_lab_img not found or invalid");
+
+        // Separate images and videos
+        const images = DPharmacy_lab_img.filter(i => i.type === 'image').slice(0, 2);
+        const videos = DPharmacy_lab_img.filter(i => i.type === 'video').slice(0, 1);
+
+        // Combine 2 images + 1 video
+        const mediaToSend = [...images, ...videos];
+
+        for (const media of mediaToSend) {
             try {
-                const cap = (img.caption && (img.caption[lang] || img.caption['en'])) || imageCaption;
-                await sendMediaMessage(to, img.id || img.url, cap, 'image', !!img.url, img.url);
+                const cap = (media.caption && (media.caption[lang] || media.caption['en'])) || imageCaption;
+                await sendMediaMessage(
+                    to,
+                    media.id || media.url,
+                    cap,
+                    media.type,   // 'image' or 'video'
+                    !!media.url,
+                    media.url
+                );
                 if (!userSentMedia[to]) userSentMedia[to] = new Set();
-                userSentMedia[to].add(String(img.id || img.url));
-            } catch (e) { console.warn('[WARN] Failed to send D.Pharmacy submenu image', e); }
+                userSentMedia[to].add(String(media.id || media.url));
+            } catch (e) {
+                console.warn(`[WARN] Failed to send D.Pharmacy ${media.type}`, e);
+            }
         }
-    } catch (err) { console.warn('[WARN] D.Pharmacy submenu image sending failed', err); }
+    } catch (err) {
+        console.warn('[WARN] D.Pharmacy submenu media sending failed', err);
+    }
 
     const listMessage = {
-        messaging_product: "whatsapp", to, type: "interactive",
+        messaging_product: "whatsapp",
+        to,
+        type: "interactive",
         interactive: {
             type: "list",
             header: { type: "text", text: getLocalizedText(to, 'DPHARMA_HEADER') },
@@ -511,6 +531,7 @@ export async function sendDPharmaSubMenu(to) {
             },
         },
     };
+
     try {
         ensureUniqueRowIds(listMessage);
         await axios.post(API_URL, listMessage, { headers: WHATSAPP_HEADERS });
@@ -518,6 +539,7 @@ export async function sendDPharmaSubMenu(to) {
         handleApiError(error, `DPharma Sub-Menu to ${to}`);
     }
 }
+
 
 export async function sendNursingCoursesMenu(to) {
     const lang = userLanguageState[to] || 'en';
@@ -565,23 +587,46 @@ export async function sendNursingCoursesMenu(to) {
 export async function sendNursingSubMenu(to) {
     const lang = userLanguageState[to] || 'en';
     const nursingImageCaption = getLocalizedText(to, 'NURSING_HEADER');
- 
-     try {
-        const imgs = (Array.isArray(Nursing_lab_img) && Nursing_lab_img.filter(i => i.type === 'image')) || [];
-        const toSend = imgs.slice(0, 3);
-        for (const img of toSend) {
+
+    try {
+        if (!Array.isArray(Nursing_lab_img)) throw new Error("Nursing_lab_img not found or invalid");
+
+        // Separate images and videos
+        const images = Nursing_lab_img.filter(i => i.type === 'image').slice(0, 2);
+        const videos = Nursing_lab_img.filter(i => i.type === 'video').slice(0, 1);
+
+        // Combine 2 images + 1 video
+        const mediaToSend = [...images, ...videos];
+
+        for (const media of mediaToSend) {
             try {
-                const cap = (img.caption && (img.caption[lang] || img.caption['en'])) || imageCaption;
-                await sendMediaMessage(to, img.id || img.url, cap, 'image', !!img.url, img.url);
+                const cap = (media.caption && (media.caption[lang] || media.caption['en'])) || nursingImageCaption;
+                await sendMediaMessage(
+                    to,
+                    media.id || media.url,
+                    cap,
+                    media.type,   // 'image' or 'video'
+                    !!media.url,
+                    media.url
+                );
                 if (!userSentMedia[to]) userSentMedia[to] = new Set();
-                userSentMedia[to].add(String(img.id || img.url));
-            } catch (e) { console.warn('[WARN] Failed to send Nursing submenu image', e); }
+                userSentMedia[to].add(String(media.id || media.url));
+            } catch (e) {
+                console.warn(`[WARN] Failed to send Nursing ${media.type}`, e);
+            }
         }
-    } catch (err) { console.warn('[WARN] Nursing submenu image sending failed', err); }
+    } catch (err) {
+        console.warn('[WARN] Nursing submenu media sending failed', err);
+    }
+
+    // --- List Message ---
     const listMessage = {
-        messaging_product: "whatsapp", to, type: "interactive",
+        messaging_product: "whatsapp",
+        to,
+        type: "interactive",
         interactive: {
-            type: "list", header: { type: "text", text: getLocalizedText(to, 'NURSING_HEADER') },
+            type: "list",
+            header: { type: "text", text: getLocalizedText(to, 'NURSING_HEADER') },
             body: { text: getLocalizedText(to, 'NURSING_BODY') },
             footer: { text: getLocalizedText(to, 'WELCOME_FOOTER') },
             action: {
@@ -611,6 +656,7 @@ export async function sendNursingSubMenu(to) {
             },
         },
     };
+
     try {
         ensureUniqueRowIds(listMessage);
         await axios.post(API_URL, listMessage, { headers: WHATSAPP_HEADERS });
@@ -618,6 +664,7 @@ export async function sendNursingSubMenu(to) {
         handleApiError(error, `Nursing Sub-Menu to ${to}`);
     }
 }
+
 
 export async function sendParamedicalCoursesMenu(to) {
     const lang = userLanguageState[to] || 'en';
@@ -659,25 +706,46 @@ export async function sendParamedicalCoursesMenu(to) {
 export async function sendParamedicalSubMenu(to) {
     const lang = userLanguageState[to] || 'en';
     const paramedImageCaption = getLocalizedText(to, 'PARAMED_HEADER');
+
     try {
-        const imgs = (Array.isArray(Paramedical_lab_img) && Paramedical_lab_img.filter(i => i.type === 'image')) || [];
-        const toSend = imgs.slice(0, 3);
-        for (const img of toSend) {
+        if (!Array.isArray(Paramedical_lab_img)) throw new Error("Paramedical_lab_img not found or invalid");
+
+        // Separate images and videos
+        const images = Paramedical_lab_img.filter(i => i.type === 'image').slice(0, 2);
+        const videos = Paramedical_lab_img.filter(i => i.type === 'video').slice(0, 1);
+
+        // Combine 2 images + 1 video
+        const mediaToSend = [...images, ...videos];
+
+        for (const media of mediaToSend) {
             try {
-                const cap = (img.caption && (img.caption[lang] || img.caption['en'])) || paramedImageCaption;
-                await sendMediaMessage(to, img.id || img.url, cap, 'image', !!img.url, img.url);
+                const cap = (media.caption && (media.caption[lang] || media.caption['en'])) || paramedImageCaption;
+                await sendMediaMessage(
+                    to,
+                    media.id || media.url,
+                    cap,
+                    media.type,   // 'image' or 'video'
+                    !!media.url,
+                    media.url
+                );
                 if (!userSentMedia[to]) userSentMedia[to] = new Set();
-                userSentMedia[to].add(String(img.id || img.url));
-            } catch (e) { console.warn('[WARN] Failed to send Paramedical submenu image', e); }
+                userSentMedia[to].add(String(media.id || media.url));
+            } catch (e) {
+                console.warn(`[WARN] Failed to send Paramedical ${media.type}`, e);
+            }
         }
     } catch (err) {
-        console.warn('[WARN] Failed to send Paramedical department images', err.message || err);
+        console.warn('[WARN] Failed to send Paramedical department media', err.message || err);
     }
 
+    // --- List Message ---
     const listMessage = {
-        messaging_product: "whatsapp", to, type: "interactive",
+        messaging_product: "whatsapp", 
+        to, 
+        type: "interactive",
         interactive: {
-            type: "list", header: { type: "text", text: getLocalizedText(to, 'PARAMED_HEADER') },
+            type: "list",
+            header: { type: "text", text: getLocalizedText(to, 'PARAMED_HEADER') },
             body: { text: getLocalizedText(to, 'PARAMED_BODY') },
             footer: { text: getLocalizedText(to, 'WELCOME_FOOTER') },
             action: {
@@ -707,6 +775,7 @@ export async function sendParamedicalSubMenu(to) {
             },
         },
     };
+
     try {
         ensureUniqueRowIds(listMessage);
         await axios.post(API_URL, listMessage, { headers: WHATSAPP_HEADERS });
@@ -714,6 +783,7 @@ export async function sendParamedicalSubMenu(to) {
         handleApiError(error, `Paramedical Sub-Menu to ${to}`);
     }
 }
+
 
 // ----------------- NEWS SENDER -----------------
 export async function sendDepartmentNews(to, dept) {
