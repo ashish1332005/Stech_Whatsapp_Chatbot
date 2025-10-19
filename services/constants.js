@@ -116,24 +116,35 @@ export const URL_NEWS_DPHARMA_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_DPHARMA_2}`
 
 
 
+export const ID_VIDEO_NURSING = '1xn4NvWpoSF3w83lC0sjNMK7Kk1Bz40eH'; // <--- NEW ID
+export const URL_VIDEO_NURSING = `${GOOGLE_DRIVE_BASE_URL}${ID_VIDEO_NURSING}`;
+
+export const ID_VIDEO_PARAMEDICAL = '1xn4NvWpoSF3w83lC0sjNMK7Kk1Bz40eH'; // <--- NEW ID
+export const URL_VIDEO_PARAMEDICAL = `${GOOGLE_DRIVE_BASE_URL}${ID_VIDEO_PARAMEDICAL}`;
+
+export const ID_VIDEO_DPHARMA = '1xn4NvWpoSF3w83lC0sjNMK7Kk1Bz40eH'; // <--- NEW ID
+export const URL_VIDEO_DPHARMA = `${GOOGLE_DRIVE_BASE_URL}${ID_VIDEO_DPHARMA}`;
+
+
 // MODIFIED: Added department images to the start of the tour array
 export const Paramedical_lab_img = [
     { type: 'image', id: ID_IMAGE_PARAMED, url: URL_IMAGE_PARAMED, caption: { en: "1: Paramedical Labs & Notices 📌", hi: "1/4: पैरामेडिकल लैब और सूचनाएँ 📌" } },
     { type: 'image', id: ID_IMAGE_PARAMED1, url: URL_IMAGE_PARAMED1, caption: { en: "2: Paramedical Facilities 🏥", hi: "2/4: पैरामेडिकल सुविधाएँ 🏥" } },
-    { type: 'image', id: ID_IMAGE_PARAMED2, url: URL_IMAGE_PARAMED2, caption: { en: "3: Paramedical Equipment ⚙️", hi: "3/4: पैरामेडिकल उपकरण ⚙️" } },
+    { type: 'video', id: ID_VIDEO_PARAMEDICAL, url:URL_VIDEO_PARAMEDICAL, caption: { en: "3", hi: "3" } },
     { type: 'image', id: ID_IMAGE_PARAMED3, url: URL_IMAGE_PARAMED3, caption: { en: "4: Department News & Updates �", hi: "4/4: विभागीय समाचार और अपडेट �" } },
 ];
 
 export const Nursing_lab_img = [
     { type: 'image', id: ID_IMAGE_NURSING1, url: URL_IMAGE_NURSING1, caption: { en: "1: Nursing Labs & Training 🩺", hi: "1/4: नर्सिंग लैब और प्रशिक्षण 🩺" } },
     { type: 'image', id: ID_IMAGE_NURSING2, url: URL_IMAGE_NURSING2, caption: { en: "2: Clinical Practice Rooms 🛏️", hi: "2/4: क्लिनिकल अभ्यास कक्ष 🛏️" } },
-    { type: 'image', id: ID_IMAGE_NURSING3, url: URL_IMAGE_NURSING3, caption: { en: "3: Student Practical Sessions 📸", hi: "3/4: छात्र व्यावहारिक सत्र 📸" } },
+    { type: 'video', id: ID_VIDEO_NURSING, url:URL_VIDEO_NURSING, caption: { en: "3", hi: "3" } },
     { type: 'image', id: ID_IMAGE_HOSTEL, url: URL_IMAGE_HOSTEL, caption: { en: "4: Campus Hostel & Facilities 🏠", hi: "4/4: कैंपस हॉस्टल और सुविधाएँ 🏠" } },
 ];
 
 export const DPharmacy_lab_img = [
     { type: 'image', id: ID_IMAGE_DPHARMA, url: URL_IMAGE_DPHARMA, caption: { en: "1: Pharm Labs & Equipment 💊", hi: "1/4: फार्मेसी लैब और उपकरण 💊" } },
     { type: 'image', id: ID_IMAGE_DPHARMA2, url: URL_IMAGE_DPHARMA2, caption: { en: "2: Practical Pharmaceutics ⚗️", hi: "2/4: व्यावहारिक फार्मास्यूटिक्स ⚗️" } },
+     { type: 'video', id: ID_VIDEO_DPHARMA, url:URL_VIDEO_DPHARMA, caption: { en: "3", hi: "3" } },
 ];
 export const UNIVERSAL_CAMPUS_TOUR = [
   { type: 'video', id: ID_UNIVERSAL_VIDEO_1, url: VIDEO_1_URL },
