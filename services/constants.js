@@ -114,6 +114,8 @@ export const ID_NEWS_DPHARMA_2 = '14-qOnvYKOrFN828eiH2gcqzqsEr4yumE';
 export const URL_NEWS_DPHARMA_1 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_DPHARMA_1}`;
 export const URL_NEWS_DPHARMA_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_DPHARMA_2}`;
 
+export const ID_VIDEO_CBSE = '1xXdwqTPiVARsTxFXRDNIxm6EPVC8USqe'; // <--- NEW ID
+export const URL_VIDEO_CBSE = `${GOOGLE_DRIVE_BASE_URL}${ID_VIDEO_CBSE}`;
 
 
 export const ID_VIDEO_NURSING = '1xn4NvWpoSF3w83lC0sjNMK7Kk1Bz40eH'; // <--- NEW ID
@@ -127,6 +129,18 @@ export const URL_VIDEO_DPHARMA = `${GOOGLE_DRIVE_BASE_URL}${ID_VIDEO_DPHARMA}`;
 
 
 // MODIFIED: Added department images to the start of the tour array
+export const CBSE_lab_video = [
+    {
+        type: 'video',
+        id: ID_VIDEO_CBSE,
+        url: URL_VIDEO_CBSE,
+        caption: {
+            en: "🏫 CBSE Campus",
+            hi: "🏫 सीबीएसई कैंपस"
+        }
+    },
+];
+
 export const Paramedical_lab_img = [
     { type: 'image', id: ID_IMAGE_PARAMED, url: URL_IMAGE_PARAMED, caption: { en: "1: Paramedical Labs & Notices 📌", hi: "1: पैरामेडिकल लैब और सूचनाएँ 📌" } },
     { type: 'image', id: ID_IMAGE_PARAMED1, url: URL_IMAGE_PARAMED1, caption: { en: "2: Program Overview 🛏️", hi: "2: कार्यक्रम अवलोकन 🛏️" } },
