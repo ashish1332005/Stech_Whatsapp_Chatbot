@@ -51,6 +51,7 @@ import {
     URL_NEWS_DPHARMA_1,
     URL_NEWS_DPHARMA_2,
     URL_IMAGE_NURSING,
+    CBSE_lab_video,
     URL_IMAGE_PARAMED, // if needed
 } from "./constants.js";
 
