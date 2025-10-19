@@ -118,22 +118,22 @@ export const URL_NEWS_DPHARMA_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_DPHARMA_2}`
 
 // MODIFIED: Added department images to the start of the tour array
 export const Paramedical_lab_img = [
-    { type: 'image', id: ID_IMAGE_PARAMED, url: URL_IMAGE_PARAMED, caption: { en: "1/4: Paramedical Labs & Notices 📌", hi: "1/4: पैरामेडिकल लैब और सूचनाएँ 📌" } },
-    { type: 'image', id: ID_IMAGE_PARAMED1, url: URL_IMAGE_PARAMED1, caption: { en: "2/4: Paramedical Facilities 🏥", hi: "2/4: पैरामेडिकल सुविधाएँ 🏥" } },
-    { type: 'image', id: ID_IMAGE_PARAMED2, url: URL_IMAGE_PARAMED2, caption: { en: "3/4: Paramedical Equipment ⚙️", hi: "3/4: पैरामेडिकल उपकरण ⚙️" } },
-    { type: 'image', id: ID_IMAGE_PARAMED3, url: URL_IMAGE_PARAMED3, caption: { en: "4/4: Department News & Updates �", hi: "4/4: विभागीय समाचार और अपडेट �" } },
+    { type: 'image', id: ID_IMAGE_PARAMED, url: URL_IMAGE_PARAMED, caption: { en: "1: Paramedical Labs & Notices 📌", hi: "1/4: पैरामेडिकल लैब और सूचनाएँ 📌" } },
+    { type: 'image', id: ID_IMAGE_PARAMED1, url: URL_IMAGE_PARAMED1, caption: { en: "2: Paramedical Facilities 🏥", hi: "2/4: पैरामेडिकल सुविधाएँ 🏥" } },
+    { type: 'image', id: ID_IMAGE_PARAMED2, url: URL_IMAGE_PARAMED2, caption: { en: "3: Paramedical Equipment ⚙️", hi: "3/4: पैरामेडिकल उपकरण ⚙️" } },
+    { type: 'image', id: ID_IMAGE_PARAMED3, url: URL_IMAGE_PARAMED3, caption: { en: "4: Department News & Updates �", hi: "4/4: विभागीय समाचार और अपडेट �" } },
 ];
 
 export const Nursing_lab_img = [
-    { type: 'image', id: ID_IMAGE_NURSING1, url: URL_IMAGE_NURSING1, caption: { en: "1/4: Nursing Labs & Training 🩺", hi: "1/4: नर्सिंग लैब और प्रशिक्षण 🩺" } },
-    { type: 'image', id: ID_IMAGE_NURSING2, url: URL_IMAGE_NURSING2, caption: { en: "2/4: Clinical Practice Rooms 🛏️", hi: "2/4: क्लिनिकल अभ्यास कक्ष 🛏️" } },
-    { type: 'image', id: ID_IMAGE_NURSING3, url: URL_IMAGE_NURSING3, caption: { en: "3/4: Student Practical Sessions 📸", hi: "3/4: छात्र व्यावहारिक सत्र 📸" } },
-    { type: 'image', id: ID_IMAGE_HOSTEL, url: URL_IMAGE_HOSTEL, caption: { en: "4/4: Campus Hostel & Facilities 🏠", hi: "4/4: कैंपस हॉस्टल और सुविधाएँ 🏠" } },
+    { type: 'image', id: ID_IMAGE_NURSING1, url: URL_IMAGE_NURSING1, caption: { en: "1: Nursing Labs & Training 🩺", hi: "1/4: नर्सिंग लैब और प्रशिक्षण 🩺" } },
+    { type: 'image', id: ID_IMAGE_NURSING2, url: URL_IMAGE_NURSING2, caption: { en: "2: Clinical Practice Rooms 🛏️", hi: "2/4: क्लिनिकल अभ्यास कक्ष 🛏️" } },
+    { type: 'image', id: ID_IMAGE_NURSING3, url: URL_IMAGE_NURSING3, caption: { en: "3: Student Practical Sessions 📸", hi: "3/4: छात्र व्यावहारिक सत्र 📸" } },
+    { type: 'image', id: ID_IMAGE_HOSTEL, url: URL_IMAGE_HOSTEL, caption: { en: "4: Campus Hostel & Facilities 🏠", hi: "4/4: कैंपस हॉस्टल और सुविधाएँ 🏠" } },
 ];
 
 export const DPharmacy_lab_img = [
-    { type: 'image', id: ID_IMAGE_DPHARMA, url: URL_IMAGE_DPHARMA, caption: { en: "1/4: Pharm Labs & Equipment 💊", hi: "1/4: फार्मेसी लैब और उपकरण 💊" } },
-    { type: 'image', id: ID_IMAGE_DPHARMA2, url: URL_IMAGE_DPHARMA2, caption: { en: "2/4: Practical Pharmaceutics ⚗️", hi: "2/4: व्यावहारिक फार्मास्यूटिक्स ⚗️" } },
+    { type: 'image', id: ID_IMAGE_DPHARMA, url: URL_IMAGE_DPHARMA, caption: { en: "1: Pharm Labs & Equipment 💊", hi: "1/4: फार्मेसी लैब और उपकरण 💊" } },
+    { type: 'image', id: ID_IMAGE_DPHARMA2, url: URL_IMAGE_DPHARMA2, caption: { en: "2: Practical Pharmaceutics ⚗️", hi: "2/4: व्यावहारिक फार्मास्यूटिक्स ⚗️" } },
 ];
 export const UNIVERSAL_CAMPUS_TOUR = [
   { type: 'video', id: ID_UNIVERSAL_VIDEO_1, url: VIDEO_1_URL },
