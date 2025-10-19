@@ -565,8 +565,19 @@ export async function sendNursingCoursesMenu(to) {
 export async function sendNursingSubMenu(to) {
     const lang = userLanguageState[to] || 'en';
     const nursingImageCaption = getLocalizedText(to, 'NURSING_HEADER');
-    // send representative image using known URL
-    await sendMediaMessage(to, URL_IMAGE_NURSING || ID_IMAGE_NURSING, nursingImageCaption, 'image', true, URL_IMAGE_NURSING);
+ 
+     try {
+        const imgs = (Array.isArray(Nursing_lab_img) && Nursing_lab_img.filter(i => i.type === 'image')) || [];
+        const toSend = imgs.slice(0, 3);
+        for (const img of toSend) {
+            try {
+                const cap = (img.caption && (img.caption[lang] || img.caption['en'])) || imageCaption;
+                await sendMediaMessage(to, img.id || img.url, cap, 'image', !!img.url, img.url);
+                if (!userSentMedia[to]) userSentMedia[to] = new Set();
+                userSentMedia[to].add(String(img.id || img.url));
+            } catch (e) { console.warn('[WARN] Failed to send Nursing submenu image', e); }
+        }
+    } catch (err) { console.warn('[WARN] Nursing submenu image sending failed', err); }
     const listMessage = {
         messaging_product: "whatsapp", to, type: "interactive",
         interactive: {
@@ -650,7 +661,7 @@ export async function sendParamedicalSubMenu(to) {
     const paramedImageCaption = getLocalizedText(to, 'PARAMED_HEADER');
     try {
         const imgs = (Array.isArray(Paramedical_lab_img) && Paramedical_lab_img.filter(i => i.type === 'image')) || [];
-        const toSend = imgs.slice(0, 2);
+        const toSend = imgs.slice(0, 3);
         for (const img of toSend) {
             try {
                 const cap = (img.caption && (img.caption[lang] || img.caption['en'])) || paramedImageCaption;
