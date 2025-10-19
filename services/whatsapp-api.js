@@ -417,15 +417,35 @@ export async function sendCbsiBranchSelection(to) {
 }
 
 export async function sendCbsiSubMenu(to, branchId) {
-    const branchName = branchId === 'menu_cbse_pn' ? getLocalizedText(to, 'CBSE_PATEL_NAGAR') : getLocalizedText(to, 'CBSE_PANSAL');
-    const parentIdPrefix = branchId;
     const lang = userLanguageState[to] || 'en';
-    const bodyKey = branchId === 'menu_cbse_pn' ? 'CBSE_PATEL_NAGAR_BODY' : 'CBSE_PANSAL_BODY';
+    const isPatelNagar = branchId === 'menu_cbse_pn';
+    const branchName = getLocalizedText(to, isPatelNagar ? 'CBSE_PATEL_NAGAR' : 'CBSE_PANSAL');
+    const bodyKey = isPatelNagar ? 'CBSE_PATEL_NAGAR_BODY' : 'CBSE_PANSAL_BODY';
+    const parentIdPrefix = branchId;
 
+    // 🏫 Send CBSE Campus Video First
+    try {
+        const video = CBSE_lab_video[0];
+        if (video?.url) {
+            const caption = (video.caption && (video.caption[lang] || video.caption['en'])) 
+                            || (lang === 'en' ? "🏫 CBSE Campus Overview" : "🏫 सीबीएसई कैंपस झलक");
+            await sendMediaMessage(to, video.id || video.url, caption, 'video', !!video.url, video.url);
+        }
+    } catch (e) {
+        console.warn('[WARN] Failed to send CBSE lab video', e);
+    }
+
+    // 🧾 Create List Message
     const listMessage = {
-        messaging_product: "whatsapp", to, type: "interactive",
+        messaging_product: "whatsapp",
+        to,
+        type: "interactive",
         interactive: {
-            type: "list", header: { type: "text", text: branchName.substring(0, 24) + " Details" },
+            type: "list",
+            header: {
+                type: "text",
+                text: `${branchName.substring(0, 24)} ${lang === 'en' ? "Details" : "विवरण"}`
+            },
             body: { text: getLocalizedText(to, bodyKey) },
             footer: { text: getLocalizedText(to, 'WELCOME_FOOTER') },
             action: {
@@ -438,22 +458,24 @@ export async function sendCbsiSubMenu(to, branchId) {
                             { id: `${parentIdPrefix}_fees`, title: getLocalizedText(to, 'CBSE_FEES_TITLE').substring(0, 24) },
                             { id: `${parentIdPrefix}_docs`, title: getLocalizedText(to, 'CBSE_DOCS_TITLE').substring(0, 24) },
                             { id: `${parentIdPrefix}_admission`, title: getLocalizedText(to, 'CBSE_ADMISSIONS_TITLE').substring(0, 24) },
-                            { id: `media_school`, title: (lang === 'en' ? "🖼️ View Labs/Campus" : "🖼️ लैब/कैंपस देखें").substring(0, 24) },
+                            { id: "media_school", title: (lang === 'en' ? "🖼️ View Labs/Campus" : "🖼️ लैब/कैंपस देखें").substring(0, 24) },
                             { id: "info_hostel", title: getLocalizedText(to, 'HOSTEL_TITLE').substring(0, 24) },
                         ],
                     },
                     {
-                        title: 'Explore & Contact',
+                        title: getLocalizedText(to, 'SECTION_SUPPORT').substring(0, 24),
                         rows: [
                             { id: 'url_cbse_web', title: (lang === 'en' ? "🌐 School Website" : "🌐 स्कूल वेबसाइट").substring(0, 24) },
-                            { id: 'menu_explore', title: '🔗 Social & Contacts' },
-                            { id: 'menu_cbse', title: getLocalizedText(to, 'BACK_BUTTON').substring(0, 24) + " (Branch Select)" },
-                        ]
-                    }
+                            { id: 'menu_explore', title: (lang === 'en' ? "🔗 Social & Contacts" : "🔗 सोशल और संपर्क").substring(0, 24) },
+                            { id: 'menu_cbse', title: (lang === 'en' ? "⬅️ Back (Branch Select)" : "⬅️ वापस (शाखा चुनें)").substring(0, 24) },
+                        ],
+                    },
                 ],
             },
         },
     };
+
+    //  Send List Message to User
     try {
         ensureUniqueRowIds(listMessage);
         await axios.post(API_URL, listMessage, { headers: WHATSAPP_HEADERS });
@@ -461,6 +483,7 @@ export async function sendCbsiSubMenu(to, branchId) {
         handleApiError(error, `CBSE Branch Sub-Menu to ${to}`);
     }
 }
+
 
 export async function sendDPharmaSubMenu(to) {
     const imageCaption = getLocalizedText(to, 'DPHARMA_HEADER');
