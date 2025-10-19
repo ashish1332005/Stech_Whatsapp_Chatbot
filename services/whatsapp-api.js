@@ -544,7 +544,7 @@ export async function sendDPharmaSubMenu(to) {
                             { id: "url_dpharma_web", title: (lang === 'en' ? "🌐 Website Link" : "🌐 वेबसाइट लिंक").substring(0, 24) },
                             { id: "info_dpharma_contact", title: (lang === 'en' ? "Contact Admissions Team" : "एडमिशन टीम से संपर्क").substring(0, 24) },
                             { id: "info_dpharma_eligibility_start", title: (lang === 'en' ? "Check Eligibility" : "पात्रता जाँच").substring(0, 24) },
-                            { id: "media_dpharma", title: (lang === 'en' ? "🖼️ View Labs/Campus" : "🖼️ लैब/कैंपस देखें").substring(0, 24) },
+                         
                             { id: "menu_dpharma_prospectus", title: (lang === 'en' ? "📄 Download Prospectus" : "📄 प्रॉस्पेक्टस डाउनलोड करें").substring(0, 24) },
                             { id: "info_hostel", title: getLocalizedText(to, 'HOSTEL_TITLE').substring(0, 24) },
                             { id: "menu_main", title: getLocalizedText(to, 'VIEW_ALL_PROGRAMS').substring(0, 24) },
@@ -669,7 +669,7 @@ export async function sendNursingSubMenu(to) {
                             { id: "url_nursing_web", title: (lang === 'en' ? "🌐 Website Link" : "🌐 वेबसाइट लिंक").substring(0, 24) },
                             { id: "info_nursing_contact", title: getLocalizedText(to, 'NURSING_CONTACT_TITLE').substring(0, 24) },
                             { id: "info_nursing_eligibility_start", title: (lang === 'en' ? "Check Eligibility" : "पात्रता जाँच").substring(0, 24) },
-                            { id: "media_nursing", title: (lang === 'en' ? "🖼️ View Labs/Campus" : "🖼️ लैब/कैंपस देखें").substring(0, 24) },
+                          
                             { id: "menu_nursing_prospectus", title: (lang === 'en' ? "📄 Download Prospectus" : "📄 प्रॉस्पेक्टस डाउनलोड करें").substring(0, 24) },
                             { id: "info_hostel", title: getLocalizedText(to, 'HOSTEL_TITLE').substring(0, 24) },
                             { id: "menu_main", title: getLocalizedText(to, 'VIEW_ALL_PROGRAMS').substring(0, 24) },
@@ -788,7 +788,7 @@ export async function sendParamedicalSubMenu(to) {
                             { id: "url_paramed_web", title: (lang === 'en' ? "🌐 Website Link" : "🌐 वेबसाइट लिंक").substring(0, 24) },
                             { id: "info_paramed_contact", title: getLocalizedText(to, 'PARAMED_CONTACT_TITLE').substring(0, 24) },
                             { id: "info_paramed_eligibility_start", title: (lang === 'en' ? "Check Eligibility" : "पात्रता जाँच").substring(0, 24) },
-                            { id: "media_paramedical", title: (lang === 'en' ? "🖼️ View Labs/Campus" : "🖼️ लैब/कैंपस देखें").substring(0, 24) },
+                       
                             { id: "menu_paramedical_prospectus", title: (lang === 'en' ? "📄 Download Prospectus" : "📄 प्रॉस्पेक्टस डाउनलोड करें").substring(0, 24) },
                             { id: "info_hostel", title: getLocalizedText(to, 'HOSTEL_TITLE').substring(0, 24) },
                             { id: "menu_main", title: getLocalizedText(to, 'VIEW_ALL_PROGRAMS').substring(0, 24) },
