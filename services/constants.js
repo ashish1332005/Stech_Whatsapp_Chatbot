@@ -1,6 +1,7 @@
 // services/constants.js
 
 import "dotenv/config";
+import e from "express";
 
 // --- CONFIGURATION CONSTANTS ---
 export const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -13,6 +14,7 @@ export const WHATSAPP_HEADERS = {
     Authorization: `Bearer ${META_ACCESS_TOKEN}`,
     "Content-Type": "application/json",
 };
+
 
 // --- URL CONSTANTS (Defined ONCE) ---
 export const URL_COLLEGE_COURSES_DETAIL = 'https://docs.google.com/document/d/1VYzC9gL7Zdw7nLsWuzr35zyWCbOU-_3g/edit?usp=sharing';
@@ -40,7 +42,7 @@ export const ID_UNIVERSAL_VIDEO_1 = '18iUFO_VcL_7dyPpGYz3Tp0F0YClS4JtC';
 export const ID_UNIVERSAL_VIDEO_2 = '1LQKHo3T6yEwSiqRSAxFvtHQTJu6Ptv_O';
 
 // NEW: Department-Specific Image IDs/URLs
-export const ID_IMAGE_HOSTEL = '1c37gVDDWWzrQh-tQTCLcDrZijc50vK81';
+export const ID_IMAGE_HOSTEL = '1L2hCkm-X9FHcn8YBv6weFzGRulMEjAbu';
 export const URL_IMAGE_HOSTEL = `${GOOGLE_DRIVE_BASE_URL}${ID_IMAGE_HOSTEL}`;
 
 
@@ -74,6 +76,8 @@ export const URL_IMAGE_PARAMED3 = `${GOOGLE_DRIVE_BASE_URL}${ID_IMAGE_PARAMED3}`
 export const URL_IMAGE_PARAMED1 = `${GOOGLE_DRIVE_BASE_URL}${ID_IMAGE_PARAMED1}`;
 export const URL_IMAGE_PARAMED2 = `${GOOGLE_DRIVE_BASE_URL}${ID_IMAGE_PARAMED2}`;
 
+export const ID_videoNursing='   '
+
 export const ID_IMAGE_DPHARMA = '1w56T517QOHNJNLwbHHJzEGbx6u4YxgRb'; // Placeholder ID for D.Pharmacy Lab/Facility
 export const URL_IMAGE_DPHARMA = `${GOOGLE_DRIVE_BASE_URL}${ID_IMAGE_DPHARMA}`;
 
@@ -89,6 +93,28 @@ export const ID_IMAGE_EVENTS_1 = '1XtefQDk2ML6W_TKTNHl1XOmGHzqrypIK';
 export const ID_IMAGE_EVENTS_2 = '1Hj3uDH3MWMH1WGXC06o6ZYQpp0HFjRK0';
 export const VIDEO_1_URL = `https://drive.google.com/uc?export=download&id=${ID_UNIVERSAL_VIDEO_1}`;
 export const VIDEO_2_URL = `https://drive.google.com/uc?export=download&id=${ID_UNIVERSAL_VIDEO_2}`;
+
+export const ID_NEWS_CBSE_1 = '1reXrSNuK_aJ-Afu5yBux6UfwTjCkbgrK'; // Placeholder ID for CBSE News Image 1
+export const ID_NEWS_CBSE_2 = '1jASR5SBuRTmGUk0RspQmsvpccE_2f96g';
+export const URL_NEWS_CBSE_1 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_CBSE_1}`;
+export const URL_NEWS_CBSE_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_CBSE_2}`;
+
+export const ID_NEWS_PARAMED_1 = '1jASR5SBuRTmGUk0RspQmsvpccE_2f96g'; // Placeholder ID for Paramedical News Image 1
+export const ID_NEWS_PARAMED_2 = '1g0JgJrB7OEeB3QFC9VrnWj5UK3wWxIEE';
+export const URL_NEWS_PARAMED_1 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_PARAMED_1}`;
+export const URL_NEWS_PARAMED_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_PARAMED_2}`;
+
+export const ID_NEWS_NURSING_1 = '1jASR5SBuRTmGUk0RspQmsvpccE_2f96g'; // Placeholder ID for Nursing News Image 1
+export const ID_NEWS_NURSING_2 = '1jEJu4eBInbECxDJvdY9j500Bvfp9XroD';
+export const URL_NEWS_NURSING_1 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_NURSING_1}`;
+export const URL_NEWS_NURSING_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_NURSING_2}`;
+
+export const ID_NEWS_DPHARMA_1 = '1jASR5SBuRTmGUk0RspQmsvpccE_2f96g'; // Placeholder ID for D.Pharmacy News Image 1
+export const ID_NEWS_DPHARMA_2 = '14-qOnvYKOrFN828eiH2gcqzqsEr4yumE';
+export const URL_NEWS_DPHARMA_1 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_DPHARMA_1}`;
+export const URL_NEWS_DPHARMA_2 = `${GOOGLE_DRIVE_BASE_URL}${ID_NEWS_DPHARMA_2}`;
+
+
 
 // MODIFIED: Added department images to the start of the tour array
 export const Paramedical_lab_img = [
@@ -140,9 +166,7 @@ export const MESSAGES = {
     // --- Main Menu Sections ---
     SECTION_PROGRAMS: { en: "1️⃣ Academic Programs", hi: "1️⃣ शैक्षणिक कार्यक्रम" },
     SECTION_SUPPORT: { en: "2️⃣ Campus & Support", hi: "2️⃣ कैंपस और सपोर्ट" },
-   NEXT_STEP_BODY: { en: "⚠ P.B.B.Sc Nursing: Only a few seats left for the 2025–26 session! Apply now! 🕰 Last Date: 14th October 📢 The leading institute of Bhilwara district in Nursing, Paramedical, and Pharmacy education.", hi: "✨ ⚠ P.B.B.SC Nursing: सत्र 2025-26 में कुछ ही सीटें शेष! तुरंत आवेदन करें! 🕰 अंतिम तिथि 14 अक्टूबर, 📢 भीलवाड़ा जिले का नर्सिंग, पैरामेडिकल एवं फार्मेसी में अग्रणी संस्थान S.Tech Group में सत्र 2025-26 के लिए P.B.B.SC Nursing में आवेदन जारी हैं।" },
-    NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "S.Tech कॉलेज - भीलवाड़ा" },
-
+    NEXT_STEP_BODY: { en: "✨ Where would you like to go next?", hi: "✨ अब आप आगे क्या देखना चाहेंगे?" },
     NEXT_STEP_FOOTER: { en: "S-Tech College - Bhilwara", hi: "એસ-ટેક कॉलेज - भीलवाड़ा" },
     BACK_BUTTON: { en: "⬅️ Back", hi: "⬅️ वापस जाएँ" },
     VIEW_ALL_PROGRAMS: { en: "📚 View Programs", hi: "📚 प्रोग्राम देखें" },
@@ -153,22 +177,18 @@ export const MESSAGES = {
 
     // --- CBSE Section ---
     CBSE_HEADER: { en: "🏫 CBSE School", hi: "🏫 सीबीएसई स्कूल" },
-    CBSE_BODY: { en: "𝐀𝐝𝐦𝐢𝐬𝐬𝐢𝐨𝐧 𝐎𝐩𝐞𝐧 𝐟𝐨𝐫 𝐬𝐞𝐬𝐬𝐢𝐨𝐧 2025-26 𝐒.𝐓𝐞𝐜𝐡 𝐈𝐧𝐭𝐞𝐫𝐧𝐚𝐭𝐢𝐨𝐧𝐚𝐥 𝐒𝐜𝐡𝐨𝐨l 🏫, 𝐁𝐡𝐢𝐥𝐰𝐚𝐫𝐚(𝐀𝐟𝐟𝐢𝐥𝐢𝐚𝐭𝐞𝐝 𝐛𝐲 𝐂𝐁𝐒𝐄 𝐮𝐩𝐭𝐨 𝐗𝐈𝐈 𝐀𝐫𝐭𝐬, 𝐂𝐨𝐦𝐦𝐞𝐫𝐜𝐞, 𝐒𝐜𝐢𝐞𝐧𝐜𝐞, Agriculture) School Day boarding Hostel 𝟏𝟎𝟎% 𝐂𝐁𝐒𝐄 𝐑𝐞𝐬𝐮𝐥𝐭. Please choose your preferred branch.", hi: "सत्र 2025–26 के लिए प्रवेश खुले हैं एस-टेक इंटरनेशनल स्कूल 🏫, भीलवाड़ा (CBSE से संबद्ध — कक्षा 12 तक: कला, वाणिज्य, विज्ञान, कृषि शाखाएं) स्कूल में डे-बोर्डिंग और हॉस्टल की सुविधा उपलब्ध है। 100% CBSE परिणाम। कृपया अपनी पसंदीदा शाखा चुनें ।"},
+    CBSE_BODY: { en: "Admissions Open for Session 2025–26 (CBSE Affiliated up to Class XII). Please choose your preferred branch.", hi: "सत्र 2025–26 के लिए प्रवेश खुले हैं (सीबीएसई संबद्ध XII तक)। कृपया अपनी पसंदीदा शाखा चुनें।"},
     CBSE_PATEL_NAGAR: { en: "🏫 Patel Nagar Branch", hi: "🏫 पटेल नगर शाखा" },
     CBSE_PATEL_NAGAR_BODY: { en: "Located in the heart of Bhilwara, our Patel Nagar campus offers a vibrant learning environment with modern facilities, experienced faculty, and a focus on holistic development.", hi: "भीलवाड़ा के केंद्र में स्थित, हमारा पटेल नगर कैंपस आधुनिक सुविधाओं, अनुभवी फैकल्टी और समग्र विकास पर ध्यान केंद्रित करता है।"},
     CBSE_PANSAL: { en: "🏫 Pansal Branch (Main)", hi: "🏫 पानसाल शाखा (मुख्य कैंपस)" },
-CBSSE_PANSAL_BODY: {
-  en: "S.Tech International School, Pansal Campus — built on a 30-bigha lush green valley surrounded by hills, offers a perfect blend of technology and experience. The campus features world-class infrastructure, modern classrooms, advanced laboratories, and an on-campus international sports arena (lawn tennis, basketball, pickleball, swimming pool, volleyball, skating, handball, horse riding, and camel riding). Students also receive in-campus preparation for competitive exams such as CA Foundation, UPSC Foundation, NTSE, and Olympiad. With hostel and day boarding facilities, our students have proudly represented at national and international levels in various sports.",
-  
-  hi: "एस.टेक इंटरनेशनल स्कूल, पानसाल कैंपस — 30 बीघा के हरे-भरे घाटी क्षेत्र में स्थित है, जो चारों ओर पहाड़ियों से घिरा हुआ है और तकनीक व अनुभव का एक परफेक्ट संगम प्रस्तुत करता है। यहाँ विश्व-स्तरीय इंफ्रास्ट्रक्चर, आधुनिक कक्षाएँ, उन्नत प्रयोगशालाएँ और एक इंटरनेशनल स्पोर्ट्स एरीना (लॉन टेनिस, बास्केटबॉल, पिकलबॉल, स्विमिंग पूल, वॉलीबॉल, स्केटिंग, हैंडबॉल, हॉर्स राइडिंग और कैमल राइडिंग) उपलब्ध हैं। छात्रों के लिए कैंपस में ही प्रतियोगी परीक्षाओं की तैयारी (CA Foundation, UPSC Foundation, NTSE, Olympiad) की सुविधा है। होस्टल और डे-बोर्डिंग की व्यवस्था के साथ, हमारे विद्यार्थियों ने विभिन्न खेलों में राष्ट्रीय और अंतरराष्ट्रीय स्तर पर गर्व से प्रतिनिधित्व किया है।"
-},
-
+    CBSSE_PANSAL_BODY: { en: "Our sprawling Pansal campus, set amidst serene surroundings, provides state-of-the-art infrastructure, well-equipped labs, and a nurturing environment to foster academic excellence and extracurricular growth.", hi: "हमारा विस्तृत पानसाल कैंपस शांत वातावरण के बीच स्थित है, जो अत्याधुनिक इंफ्रास्ट्रक्चर, अच्छी तरह से सुसज्जित लैब्स और एक पोषणकारी वातावरण प्रदान करता है।"},
     CBSE_ADMISSIONS_TITLE: { en: "📘 Admission Process", hi: "📘 प्रवेश प्रक्रिया" },
     CBSE_FEES_TITLE: { en: "💰 Fee Structure", hi: "💰 शुल्क संरचना" },
     CBSE_DOCS_TITLE: { en: "📄 Required Documents", hi: "📄 आवश्यक दस्तावेज़" },
     CBSE_DOCUMENTS: { en: "📋 *Documents Required for Admission:*\n1️⃣ Previous year's report card\n2️⃣ Original Transfer Certificate\n3️⃣ Aadhar of student & parents (self-attested)\n4️⃣ 5 recent passport-size photos\n5️⃣ PEN (Permanent Education Number)", hi: "📋 *प्रवेश के लिए आवश्यक दस्तावेज़:*\n1️⃣ पिछले वर्ष की रिपोर्ट कार्ड\n2️⃣ मूल ट्रांसफर सर्टिफिकेट (टीसी)\n3️⃣ छात्र और अभिभावकों के आधार कार्ड (स्व-अभिप्रमाणित)\n4️⃣ 5 हालिया पासपोर्ट साइज फोटो\n5️⃣ PEN (स्थायी शिक्षा संख्या)"},
     CBSE_FEES_PN: { en: "💵 *Patel Nagar Fee (Selected Classes)*\n\n- **I & II:** Adm. Fee ₹5000 | Total ₹25,000 (4×₹6250)\n- **VI–VIII:** Adm. Fee ₹5000 | Total ₹31,000 (4×₹7750)\n\n*Tap 'View Fee Doc' below for complete info.*", hi: "💵 *पटेल नगर शुल्क (चयनित कक्षाएँ)*\n\n- **I & II:** प्रवेश शुल्क ₹5000 | कुल ₹25,000 (4×₹6250)\n- **VI–VIII:** प्रवेश शुल्क ₹5000 | कुल ₹31,000 (4×₹7750)\n\n*पूर्ण विवरण के लिए 'शुल्क दस्तावेज़ देखें' लिंक पर क्लिक करें।"},
     CBSE_FEES_PS: { en: "💵 *Pansal Branch Fee (Selected Classes)*\n\n- **I & II:** Adm. Fee ₹5000 | Total ₹34,000 (4×₹8500)\n- **XI–XII:** Adm. Fee ₹6500 | Total ₹52,000 (4×₹13,000)\n\n*Tap 'View Fee Doc' below for full details.*", hi: "💵 *पानसाल शाखा शुल्क (चयनित कक्षाएँ)*\n\n- **I & II:** प्रवेश शुल्क ₹5000 | कुल ₹34,000 (4×₹8500)\n- **XI–XII:** प्रवेश शुल्क ₹6500 | कुल ₹52,000 (4×₹13,000)\n\n*पूर्ण विवरण के लिए 'शुल्क दस्तावेज़ देखें' लिंक पर क्लिक करें।"},
+    CBSE_NEWS: { en: "📰 *CBSE School News*\n\nStay updated with the latest happenings, student achievements, and school events in our CBSE section.", hi: "📰 *सीबीएसई स्कूल समाचार*\n\nहमारे सीबीएसई सेक्शन में नवीनतम घटनाओं, छात्र उपलब्धियों और स्कूल कार्यक्रमों के साथ अपडेट रहें।" },
 
     // --- Social Media & Support ---
     EXPLORE_BODY: { en: "🌐 Explore our vibrant campus life, student achievements, and modern infrastructure. Follow us on:", hi: "🌐 हमारे जीवंत कैंपस जीवन, छात्र उपलब्धियों और आधुनिक इंफ्रास्ट्रक्चर को देखें। हमें फॉलो करें:"},
@@ -189,14 +209,14 @@ CBSSE_PANSAL_BODY: {
     DPHARMA_HEADER: { en: "💊 D.Pharmacy", hi: "💊 डी.फार्मेसी" },
     DPHARMA_BODY: { en: "A **2-Year Diploma** program approved by the *Pharmacy Council of India (PCI)* and affiliated to **RUHS, Jaipur**.", hi: "यह **2-वर्षीय डिप्लोमा प्रोग्राम** *फार्मेसी काउंसिल ऑफ इंडिया (PCI)* द्वारा अनुमोदित और **आरयूएचएस, जयपुर** से संबद्ध है।"},
     DPHARMA_DETAILS: { en: "💊 *D.Pharmacy (2025-26)*\n\n**Duration:** 2 Years (Full-Time Diploma)\n**Affiliation:** RUHS, Jaipur & PCI Approved\n**Eligibility:** 10+2 (Science Stream – PCB/PCM)\n**Tuition Fee:** ₹72,300 per year\n**Career Scope:** Work as *Pharmacist, Medical Representative, Hospital Dispenser,* or pursue *B.Pharm (Lateral Entry)*.\n\n🏥 *Well-equipped labs for Pharmaceutics, Pharmacology, Chemistry, and Anatomy ensure 100% practical learning.*\n\n📘 *For complete details on structure, fees, and career prospects, please refer to the official document linked below.*", hi: "💊 *डी.फार्मेसी (2025-26)*\n\n**अवधि:** 2 वर्ष (पूर्णकालिक डिप्लोमा)\n**संबद्धता:** आरयूएचएस, जयपुर एवं पीसीआई अनुमोदित\n**पात्रता:** 10+2 (विज्ञान – पीसीबी/पीसीएम)\n**ट्यूशन शुल्क:** ₹72,300 प्रति वर्ष\n**करियर अवसर:** *फार्मासिस्ट, मेडिकल रिप्रेजेंटेटिव, हॉस्पिटल डिस्पेंसर* के रूप में कार्य कर सकते हैं या *बी.फार्म (लैटरल एंट्री)* से उच्च शिक्षा प्राप्त कर सकते हैं।\n\n🏥 *Well-equipped labs for Pharmaceutics, Pharmacology, Chemistry, and Anatomy ensure 100% practical learning.*\n\n📘 *पूरा कोर्स विवरण, शुल्क व करियर जानकारी के लिए नीचे दिए गए दस्तावेज़ को देखें।*"},
-
+DPHARAMA_NEWS: { en: "📰 *D.Pharmacy Department News*\n\nStay updated with the latest happenings, student achievements, and departmental events in our D.Pharmacy section.", hi: "📰 *डी.फार्मेसी विभाग समाचार*\n\nहमारे डी.फार्मेसी सेक्शन में नवीनतम घटनाओं, छात्र उपलब्धियों और विभागीय कार्यक्रमों के साथ अपडेट रहें।" },
     // --- NURSING ---
     NURSING_HEADER: { en: "👩‍⚕️ Nursing Department", hi: "👩‍⚕️ नर्सिंग विभाग" },
     NURSING_BODY: { en: "Offering **INC-approved Nursing Programs** affiliated with *RUHS & RNC*, designed to prepare students for excellence in modern healthcare with compassion, skill, and confidence.", hi: "हम **आईएनसी अनुमोदित नर्सिंग प्रोग्राम** प्रदान करते हैं जो *आरयूएचएस और आरएनसी* से संबद्ध हैं, जो छात्रों को आधुनिक स्वास्थ्य सेवाओं में करुणा, दक्षता और आत्मविश्वास के साथ उत्कृष्टता प्राप्त करने के लिए तैयार करते हैं।"},
     NURSING_COURSES: { en: "🩺 Programs offered: **B.Sc, GNM, P.B.B.Sc, and M.Sc Nursing**. Select a course below to view its professional summary.", hi: "🩺 हमारे कार्यक्रम: **बी.एससी, जी.एन.एम., पी.बी.बी.एससी, और एम.एससी नर्सिंग**। एक कोर्स चुनें और उसका सारांश देखें।"},
     NURSING_ADMISSIONS: { en: "💵 *Admissions & Fees*\n\n**Example (B.Sc Nursing):** ₹2.5 Lakh per year\n**Caution Money:** ₹10,000 (Refundable)\n**Hostel Fee:** ₹85,000 (Optional)\n\n📘 *For complete fee, eligibility, and admission criteria, please view the detailed document below.*", hi: "💵 *प्रवेश और शुल्क*\n\n**उदाहरण (बी.एससी नर्सिंग):** ₹2.5 लाख प्रति वर्ष\n**कॉशन मनी:** ₹10,000 (वापसी योग्य)\n**छात्रावास शुल्क:** ₹85,000 (वैकल्पिक)\n\n📘 *पूर्ण शुल्क, पात्रता और प्रवेश मानदंडों के लिए नीचे दिए गए दस्तावेज़ को देखें।*"},
     NURSING_CONTACT_TITLE: { en: "📞 Contact Counselor", hi: "📞 काउंसलर से संपर्क करें" }, 
-
+NURSING_NEWS: { en: "📰 *Nursing Department News*\n\nStay updated with the latest happenings, student achievements, and departmental events in our Nursing section.", hi: "📰 *नर्सिंग विभाग समाचार*\n\nहमारे नर्सिंग सेक्शन में नवीनतम घटनाओं, छात्र उपलब्धियों और विभागीय कार्यक्रमों के साथ अपडेट रहें।" },
     // COURSE TITLES
     NURSING_BSc_INFO: { en: "B.Sc Nursing (4 Yrs)", hi: "बी.एससी नर्सिंग (4 वर्ष)" },
     NURSING_GNM_INFO: { en: "G.N.M. (3 Yrs)", hi: "जी.एन.एम. (3 वर्ष)" },
@@ -221,7 +241,7 @@ CBSSE_PANSAL_BODY: {
 
     PARAMED_DIP_DESC: { en: "✨ *Diploma Courses (2 Years)*: Technical programs such as **DMLT, DRT, and DOTT**, focusing on lab testing, radiography, and surgical assistance. Ideal for entry into healthcare within 2 years.", hi: "✨ *डिप्लोमा कोर्स (2 वर्ष)* – **डीएमएलटी, डीआरटी और डीओटीटी** जैसे तकनीकी कोर्स, जो लैब टेस्टिंग, रेडियोग्राफी और सर्जिकल असिस्टेंस पर केंद्रित हैं। 2 वर्ष में स्वास्थ्य सेवा क्षेत्र में प्रवेश के लिए उपयुक्त।"},
     PARAMED_DEGREE_DESC: { en: "✨ *B.Sc Paramedical (3–4 Years)*: In-depth learning in *Medical Lab Technology, Radiology, Operation Theatre, and Allied Health Sciences.* Prepares students for hospitals, diagnostics, and teaching careers.", hi: "✨ *बी.एससी पैरामेडिकल (3–4 वर्ष)* – *मेडिकल लैब टेक्नोलॉजी, रेडियोलॉजी, ऑपरेशन थिएटर और संबद्ध स्वास्थ्य विज्ञान* में गहन अध्ययन। यह छात्रों को अस्पताल, डायग्नोस्टिक सेंटर और शिक्षण करियर के लिए तैयार करता।"},
-
+PARAMED_NEWS: { en: "📰 *Paramedical Department News*\n\nStay updated with the latest happenings, student achievements, and departmental events in our Paramedical section.", hi: "📰 *पैरामेडिकल विभाग समाचार*\n\nहमारे पैरामेडिकल सेक्शन में नवीनतम घटनाओं, छात्र उपलब्धियों और विभागीय कार्यक्रमों के साथ अपडेट रहें।" },
     // --- HOSPITAL & HELPDESK ---
     HOSTEL_TITLE: { en: "🏠 Hostel & Accommodation", hi: "🏠 हॉस्टल एवं आवास" },
     EVENTS_SPORTS_TITLE: { en: "🏆 Events & Sports", hi: "🏆 कार्यक्रम एवं खेल" },
