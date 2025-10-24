@@ -42,7 +42,7 @@ export const ID_UNIVERSAL_VIDEO_1 = '18iUFO_VcL_7dyPpGYz3Tp0F0YClS4JtC';
 export const ID_UNIVERSAL_VIDEO_2 = '1LQKHo3T6yEwSiqRSAxFvtHQTJu6Ptv_O';
 
 // NEW: Department-Specific Image IDs/URLs
-export const ID_IMAGE_HOSTEL = '10BCI-IIGfoNT-ajeF9u62QmoJOJFhVmU';
+export const ID_IMAGE_HOSTEL = '1VUncdtMkyb2n77-i4L9O9tpMNiu1WFGA';
 export const URL_IMAGE_HOSTEL = `${GOOGLE_DRIVE_BASE_URL}${ID_IMAGE_HOSTEL}`;
 
 
