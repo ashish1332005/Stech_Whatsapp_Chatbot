@@ -134,7 +134,9 @@ app.post("/webhook", async (req, res) => {
 
     res.sendStatus(200);
 });
-
+app.get('/', (req, res) => {
+    res.status(200).send('WhatsApp Chatbot Server is running successfully!');
+});
 // ----------------- SERVER START -----------------
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
