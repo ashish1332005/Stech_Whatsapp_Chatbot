@@ -3,64 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIY WhatsApp Team Inbox (EJS)</title>
+    <title>Stech Education Group | WhatsApp Team Inbox</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom scrollbar for better look */
+        /* Custom scrollbar to match the theme */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .chat-area { max-height: calc(100vh - 140px); }
-        .chat-messages { min-height: 400px; display: flex; flex-direction: column; justify-content: flex-end; }
+        ::-webkit-scrollbar-thumb { background: #128c7e; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #075E54; }
+        
+        /* Set background for chat panel to mimic wallpaper area */
+        .chat-messaging-panel {
+            background-color: #ECE5DD; /* Light canvas/wallpaper color */
+        }
+
+        /* Container for chat bubbles */
+        .chat-area-container { 
+            max-height: calc(100vh - 120px); /* Adjusted for WhatsApp style top/bottom bars */
+            min-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        /* Message Bubble Styling (WhatsApp Style) */
+        .message-bubble {
+            box-shadow: 0 1px 0.5px rgba(11, 20, 26, .13);
+            border-radius: 8px;
+            padding: 8px 10px 8px 10px;
+            font-size: 14px;
+            line-height: 19px;
+            position: relative;
+        }
+
+        /* Inbound (User) Bubble */
+        .inbound-bubble {
+            background-color: #FFFFFF; /* White */
+        }
+        /* Outbound (Agent) Bubble */
+        .outbound-bubble {
+            background-color: #DCF8C6; /* Light green */
+        }
+
+        /* Time/Read Status */
+        .bubble-time {
+            font-size: 10px;
+            margin-top: 4px;
+            color: #8c8c8c;
+            text-align: right;
+        }
+
+        /* Mobile-first: Hide chat messages by default on small screens */
+        @media (max-width: 767px) {
+            .chat-messaging-panel-wrapper {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen antialiased text-gray-800">
-        <div class="flex flex-row h-full w-full overflow-x-hidden">
-            <!-- Chat List Panel (Left Side) -->
-            <div class="flex flex-col py-8 pl-6 pr-2 w-72 bg-white flex-shrink-0">
-                <div class="flex flex-row items-center justify-center h-12 w-full">
-                    <div class="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z"></path></svg>
-                    </div>
-                    <div class="ml-2 font-bold text-2xl">Team Inbox</div>
+        <div class="flex flex-col md:flex-row h-full w-full overflow-hidden">
+            
+            <div id="chat-list-panel" 
+                 class="flex flex-col w-full md:w-80 bg-white flex-shrink-0 
+                        border-r border-gray-200 shadow-xl md:shadow-none 
+                        p-0 md:p-0 overflow-y-hidden">
+                
+                <div class="flex items-center h-16 bg-[#075E54] text-white p-4">
+                    <div class="font-extrabold text-xl">Stech Inbox</div>
+                </div>
+
+                <div class="flex flex-col h-full overflow-y-auto chat-list px-2 pt-2" id="chat-list-container">
+                    <p id="chat-status-message" class="text-xs text-gray-500 p-2">Loading chats...</p>
                 </div>
                 
-                <div class="flex flex-col mt-8 space-y-1 overflow-y-auto chat-list" id="chat-list-container">
-                    <!-- EJS Yahan Chats ki List Render Karega agar data available ho to -->
-                    <p id="chat-status-message" class="text-xs text-gray-500 p-2">Loading chats...</p>
-                    
+                <div class="p-3 border-t border-gray-100">
+                    <button id="toggle-chat-area-mobile" class="md:hidden w-full p-2 bg-[#128c7e] text-white rounded-lg hover:bg-[#075E54] transition duration-150" style="display:none;">
+                        View Active Chat
+                    </button>
+                    <button id="refresh-button" class="w-full mt-2 p-2 bg-[#25D366] text-white rounded-lg hover:bg-[#128c7e] transition duration-150 text-sm font-semibold shadow-md">
+                        🔄 Refresh Chats
+                    </button>
                 </div>
-                <button id="refresh-button" class="mt-4 p-2 bg-indigo-500 text-white rounded-xl hover:bg-indigo-600 transition duration-150">Refresh Chats</button>
             </div>
             
-            <!-- Chat Messaging Panel (Right Side) -->
-            <div class="flex flex-col flex-auto h-full p-6">
-                <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-white p-4 h-full">
-                    <div id="active-chat-header" class="mb-4 p-2 border-b text-lg font-semibold text-gray-700">Select a Chat</div>
+            <div id="chat-messaging-panel" 
+                 class="chat-messaging-panel-wrapper flex flex-col flex-auto h-full w-full md:w-auto">
+                 
+                <div class="flex flex-col flex-auto flex-shrink-0 h-full w-full">
                     
-                    <!-- Chat Area -->
-                    <div class="flex flex-col h-full overflow-x-auto mb-4 chat-area">
-                        <div class="flex flex-col h-full chat-messages" id="messages-container">
-                            <p class="text-center text-gray-500 italic">Click on a chat to view history.</p>
+                    <div class="flex items-center h-16 bg-[#075E54] text-white p-4 justify-between shadow-md">
+                        <div class="flex items-center">
+                            <button id="toggle-chat-list-mobile" class="md:hidden text-white mr-3" style="display:none;">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            </button>
+                            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 text-gray-800 text-sm font-bold flex-shrink-0 mr-3">
+                                US
+                            </div>
+                            <div class="flex flex-col">
+                                <span id="active-chat-header" class="text-base font-semibold">Select a Chat</span>
+                                <span id="chat-status-display" class="text-xs font-light text-gray-300">Offline / Bot Mode</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Message Input Area -->
-                    <div id="input-area" class="flex flex-row items-center h-16 rounded-xl bg-gray-100 w-full px-4 border" style="display: none;">
-                        <div class="flex-grow ml-4">
+                    <div class="flex flex-col h-full overflow-y-auto p-3 chat-area-container">
+                        <div class="flex flex-col h-full chat-messages" id="messages-container">
+                            <p class="text-center text-gray-500 italic mt-8">
+                                <span class="hidden md:inline">Click on a chat on the left to start.</span>
+                                <span class="md:hidden">Select a chat from the list.</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div id="input-area" class="flex flex-row items-center h-20 bg-gray-50 w-full px-4 border-t border-gray-200" style="display: none;">
+                        <div class="flex-grow">
                             <div class="relative w-full">
-                                <input type="text" id="message-input" placeholder="Type your message here..."
-                                    class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10">
+                                <input type="text" id="message-input" placeholder="Type a message..."
+                                    class="flex w-full border border-gray-300 bg-white rounded-full focus:outline-none focus:border-[#25D366] pl-4 pr-16 h-10 text-sm shadow-inner">
                             </div>
                         </div>
-                        <div class="ml-4">
+                        <div class="ml-3">
                             <button id="send-button"
-                                class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0 transition duration-150 ease-in-out">
-                                <span>Send</span>
-                                <span class="ml-2">
-                                    <svg class="w-4 h-4 transform rotate-45 -mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                                </span>
+                                class="flex items-center justify-center bg-[#128c7e] hover:bg-[#075E54] rounded-full text-white h-10 w-10 flex-shrink-0 transition duration-150 ease-in-out">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -69,11 +133,9 @@
         </div>
     </div>
 
-    <!-- SCRIPT block should still be at the end -->
     <script>
-        // NOTE: The core logic for fetching chats and sending replies MUST remain in JavaScript
-        // because the inbox needs to update dynamically without a full page reload.
         let activeWaId = null;
+        let activeChatStatus = 'bot_mode'; // Track current chat status for header display
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchChats();
@@ -84,12 +146,57 @@
                     handleSendReply();
                 }
             });
+            
+            // --- Responsive Handlers ---
+            const chatListPanel = document.getElementById('chat-list-panel');
+            const chatMessagingPanel = document.getElementById('chat-messaging-panel');
+            const toggleChatAreaBtn = document.getElementById('toggle-chat-area-mobile');
+            const toggleChatListBtn = document.getElementById('toggle-chat-list-mobile');
 
-            // Auto-refresh chats every 10 seconds (for simple real-time updates)
+            const showChatArea = () => {
+                if (window.innerWidth < 768) {
+                    chatListPanel.style.display = 'none';
+                    chatMessagingPanel.style.display = 'flex';
+                    toggleChatAreaBtn.style.display = 'none';
+                    toggleChatListBtn.style.display = 'block'; 
+                }
+            };
+
+            const showChatList = () => {
+                if (window.innerWidth < 768) {
+                    chatListPanel.style.display = 'flex';
+                    chatMessagingPanel.style.display = 'none';
+                    toggleChatListBtn.style.display = 'none';
+                    if (activeWaId) {
+                         toggleChatAreaBtn.style.display = 'block'; 
+                    }
+                }
+            };
+            
+            toggleChatAreaBtn.addEventListener('click', showChatArea);
+            toggleChatListBtn.addEventListener('click', showChatList);
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    chatListPanel.style.display = 'flex';
+                    chatMessagingPanel.style.display = 'flex';
+                    toggleChatAreaBtn.style.display = 'none';
+                    toggleChatListBtn.style.display = 'none';
+                } else {
+                    if (chatMessagingPanel.style.display === 'flex' && activeWaId) {
+                        showChatArea(); 
+                    } else {
+                         showChatList(); 
+                    }
+                }
+            });
+            // --- End Responsive Handlers ---
+
+            // Auto-refresh chats every 10 seconds 
             setInterval(fetchChats, 10000); 
         });
 
-        // Utility function to format timestamp
+        // Utility function to format timestamp 
         const formatTime = (timestamp) => {
             return new Date(timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
         };
@@ -98,8 +205,9 @@
         async function fetchChats() {
             const chatListContainer = document.getElementById('chat-list-container');
             const statusMessage = document.getElementById('chat-status-message');
+            const toggleChatAreaBtn = document.getElementById('toggle-chat-area-mobile');
             statusMessage.textContent = 'Refreshing...';
-            chatListContainer.innerHTML = ''; // Clear existing list
+            chatListContainer.innerHTML = ''; 
 
             try {
                 const response = await fetch('/api/chats');
@@ -110,6 +218,7 @@
                 if (chats.length === 0) {
                     statusMessage.textContent = 'No active chats found.';
                     statusMessage.style.display = 'block';
+                    toggleChatAreaBtn.style.display = 'none';
                     return;
                 }
 
@@ -120,9 +229,16 @@
                     chatListContainer.appendChild(chatItem);
                 });
 
-                // Re-select active chat if it exists (for persistent highlighting)
                 if (activeWaId) {
-                    setActiveChat(activeWaId);
+                    // Update the active chat's status and re-highlight
+                    const currentChat = chats.find(c => c._id === activeWaId);
+                    if (currentChat) {
+                        setActiveChat(activeWaId, false, currentChat.lastStatus);
+                    } else {
+                        setActiveChat(activeWaId, false, 'bot_mode'); // Default if not found
+                    }
+                } else if (window.innerWidth < 768) {
+                    toggleChatAreaBtn.style.display = 'none';
                 }
 
             } catch (error) {
@@ -134,33 +250,47 @@
 
         function createChatItem(chat) {
             const item = document.createElement('div');
-            // Status visualization: Red for live agent takeover, Green for bot mode.
-            const statusColor = chat.lastStatus === 'live_agent_mode' ? 'bg-red-50' : 'bg-green-50'; 
+            const isLiveAgent = chat.lastStatus === 'live_agent_mode';
             
-            item.className = `p-3 rounded-xl ${statusColor} hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer mb-2`;
+            // Subtle hover effect, no background color change needed for WhatsApp style list
+            item.className = `p-3 hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer border-b border-gray-100`;
             item.dataset.waId = chat._id;
+            item.dataset.status = chat.lastStatus;
 
             item.innerHTML = `
-                <p class="font-semibold text-sm">${chat._id} </p>
-                <p class="text-xs text-gray-600 truncate">${chat.lastMessage}</p>
-                <span class="text-xs font-medium ${chat.lastStatus === 'live_agent_mode' ? 'text-red-600' : 'text-green-600'}">
-                    ${chat.lastStatus === 'live_agent_mode' ? 'LIVE AGENT' : 'BOT MODE'}
-                </span>
+                <div class="flex items-center">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 text-gray-700 text-sm font-bold flex-shrink-0 mr-3">
+                        ${chat._id.substring(0, 2)}
+                    </div>
+                    <div class="flex-grow overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <p class="font-bold text-base text-gray-900 truncate">${chat._id} </p>
+                            <span class="text-xs text-gray-500">${formatTime(chat.lastTimestamp)}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-0.5">
+                            <p class="text-sm text-gray-600 truncate">${chat.lastMessage}</p>
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full 
+                                ${isLiveAgent ? 'bg-red-500 text-white' : 'bg-green-500 text-white'} ml-2">
+                                ${isLiveAgent ? 'LIVE' : 'BOT'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             `;
 
             item.addEventListener('click', () => {
-                setActiveChat(chat._id);
-                fetchChatHistory(chat._id);
+                setActiveChat(chat._id, true, chat.lastStatus);
             });
 
             return item;
         }
 
         // --- 2. Fetch Message History ---
-        async function fetchChatHistory(waId) {
+        async function fetchChatHistory(waId, status) {
             const messagesContainer = document.getElementById('messages-container');
-            document.getElementById('active-chat-header').textContent = `Chatting with: ${waId}`;
-            messagesContainer.innerHTML = '<p class="text-center text-gray-500">Loading history...</p>';
+            document.getElementById('active-chat-header').textContent = waId;
+            document.getElementById('chat-status-display').textContent = status === 'live_agent_mode' ? 'Live Agent Mode' : 'Bot Mode';
+            messagesContainer.innerHTML = '<p class="text-center text-gray-500 mt-8">Loading history...</p>';
 
             try {
                 const response = await fetch(`/api/chats/${waId}`);
@@ -168,9 +298,8 @@
                 
                 const history = await response.json();
                 
-                messagesContainer.innerHTML = ''; // Clear loading message
+                messagesContainer.innerHTML = ''; 
 
-                // Create a div wrapper for scrolling
                 const messageWrapper = document.createElement('div');
                 messageWrapper.className = 'grid grid-cols-12 gap-y-2 w-full';
 
@@ -180,13 +309,12 @@
                 
                 messagesContainer.appendChild(messageWrapper);
                 
-                // Scroll to the bottom of the chat area
-                const chatArea = document.querySelector('.chat-area');
+                const chatArea = document.querySelector('.chat-area-container');
                 chatArea.scrollTop = chatArea.scrollHeight;
 
             } catch (error) {
                 console.error("Error fetching history:", error);
-                messagesContainer.innerHTML = `<p class="text-center text-red-500">Error: Could not load chat history for ${waId}.</p>`;
+                messagesContainer.innerHTML = `<p class="text-center text-red-500 mt-8">Error: Could not load chat history for ${waId}.</p>`;
             }
         }
 
@@ -194,69 +322,94 @@
             const isAgent = msg.direction === 'outbound';
             const bubble = document.createElement('div');
             
-            // Layout based on sender (Inbound/Outbound)
+            // Layout based on sender (WhatsApp style layout)
             bubble.className = isAgent 
-                ? 'col-start-6 col-end-13 p-3 rounded-lg justify-self-end' 
-                : 'col-start-1 col-end-8 p-3 rounded-lg justify-self-start';
+                ? 'col-start-4 col-end-13 p-1 rounded-lg justify-self-end' 
+                : 'col-start-1 col-end-10 p-1 rounded-lg justify-self-start';
 
             // Message content styling
             const content = `
-                <div class="flex ${isAgent ? 'items-center justify-start flex-row-reverse' : 'flex-row items-center'}">
-                    <div class="flex items-center justify-center h-8 w-8 rounded-full ${isAgent ? 'bg-indigo-500' : 'bg-gray-300'} text-white flex-shrink-0 text-xs">
-                        ${isAgent ? 'AG' : 'US'}
-                    </div>
-                    <div class="relative ${isAgent ? 'mr-3' : 'ml-3'} text-sm ${isAgent ? 'bg-indigo-100' : 'bg-gray-100'} py-2 px-4 shadow rounded-xl">
-                        ${msg.content}
-                        <div class="text-right text-xs text-gray-500 mt-1">${formatTime(msg.timestamp)}</div>
-                    </div>
+                <div class="message-bubble ${isAgent ? 'outbound-bubble' : 'inbound-bubble'}">
+                    ${msg.content}
+                    <div class="bubble-time">${formatTime(msg.timestamp)}</div>
                 </div>
             `;
             bubble.innerHTML = content;
             return bubble;
         }
 
-        function setActiveChat(waId) {
+        // Updated setActiveChat signature
+        function setActiveChat(waId, shouldFetchHistory, status) {
             activeWaId = waId;
+            activeChatStatus = status;
             document.getElementById('input-area').style.display = 'flex';
             document.getElementById('message-input').focus();
             
+            // Update Header Status
+            document.getElementById('active-chat-header').textContent = waId;
+            document.getElementById('chat-status-display').textContent = status === 'live_agent_mode' ? 'Live Agent Mode' : 'Bot Mode';
+
             // Highlight the active chat in the list
             document.querySelectorAll('.chat-list > div').forEach(item => {
-                item.classList.remove('border-2', 'border-indigo-500');
+                item.classList.remove('bg-gray-200', 'border-l-4', 'border-[#25D366]');
                 if (item.dataset.waId === waId) {
-                    item.classList.add('border-2', 'border-indigo-500');
+                    item.classList.add('bg-gray-200', 'border-l-4', 'border-[#25D366]');
                 }
             });
+
+            if (shouldFetchHistory) {
+                fetchChatHistory(waId, status);
+                
+                // Switch to chat area on mobile after selection
+                if (window.innerWidth < 768) {
+                    const chatListPanel = document.getElementById('chat-list-panel');
+                    const chatMessagingPanel = document.getElementById('chat-messaging-panel');
+                    
+                    // If chat list is currently visible, switch view
+                    if (chatListPanel.style.display !== 'none') {
+                         chatListPanel.style.display = 'none';
+                         chatMessagingPanel.style.display = 'flex';
+                         document.getElementById('toggle-chat-list-mobile').style.display = 'block';
+                         document.getElementById('toggle-chat-area-mobile').style.display = 'none';
+                    } else {
+                         document.getElementById('toggle-chat-area-mobile').style.display = 'none';
+                    }
+                }
+            }
         }
 
-        // --- 3. Send Reply Logic ---
+        // --- 3. Send Reply Logic (Updated to use new bubble style) ---
         async function handleSendReply() {
             const input = document.getElementById('message-input');
             const message = input.value.trim();
 
             if (!activeWaId || message === '') {
-                // IMPORTANT: Replacing alert() with a custom notification (or console log)
                 console.warn('Reply attempt failed: Please select a chat and type a message.'); 
                 return;
             }
 
-            // Temporarily add message to UI for quick feedback
+            // Temporarily add message to UI
             const tempMsg = { 
                 content: message, 
                 direction: 'outbound', 
                 timestamp: new Date().toISOString() 
             };
-            document.getElementById('messages-container').querySelector('.grid').appendChild(createMessageBubble(tempMsg));
+            const messageWrapper = document.getElementById('messages-container').querySelector('.grid');
+            if (messageWrapper) {
+                messageWrapper.appendChild(createMessageBubble(tempMsg));
+            } else {
+                 // In case the message wrapper hasn't loaded yet
+                 document.getElementById('messages-container').innerHTML = '<div class="grid grid-cols-12 gap-y-2 w-full"></div>';
+                 document.getElementById('messages-container').querySelector('.grid').appendChild(createMessageBubble(tempMsg));
+            }
             
-            input.value = ''; // Clear input field
-            document.querySelector('.chat-area').scrollTop = document.querySelector('.chat-area').scrollHeight; // Scroll to bottom
+            input.value = ''; 
+            document.querySelector('.chat-area-container').scrollTop = document.querySelector('.chat-area-container').scrollHeight; 
 
             try {
                 const response = await fetch('/api/reply', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ waId: activeWaId, message: message })
                 });
 
@@ -264,26 +417,22 @@
                 
                 if (!response.ok) {
                     console.error("API Reply Error:", result);
-                    // Show error in UI
                     const errorMsg = document.createElement('div');
-                    errorMsg.className = 'text-red-500 text-sm mt-2';
+                    errorMsg.className = 'text-red-500 text-sm mt-2 text-center col-span-12';
                     errorMsg.textContent = `Error: Reply failed. Check console.`;
-                    document.getElementById('messages-container').appendChild(errorMsg);
-                    // Re-render chat history to confirm final status
-                    fetchChatHistory(activeWaId); 
+                    messageWrapper.appendChild(errorMsg);
+                    fetchChatHistory(activeWaId, activeChatStatus); 
                 } else {
                     console.log("Reply sent successfully:", result.message);
-                    // Refresh chat list to show new last message/status
                     fetchChats(); 
                 }
 
             } catch (error) {
                 console.error("Fetch error during reply:", error);
-                // Show error in UI
                 const errorMsg = document.createElement('div');
-                errorMsg.className = 'text-red-500 text-sm mt-2';
+                errorMsg.className = 'text-red-500 text-sm mt-2 text-center col-span-12';
                 errorMsg.textContent = `Network Error: Could not reach server.`;
-                document.getElementById('messages-container').appendChild(errorMsg);
+                messageWrapper.appendChild(errorMsg);
             }
         }
     </script>
