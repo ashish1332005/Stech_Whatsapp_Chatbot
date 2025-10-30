@@ -218,7 +218,6 @@ export async function sendTextMessage(to, text, isAgentReply = false) {
         await saveOutgoingMessage(to, text, isAgentReply);
         // --------------------------------
 
-        return response.data; // Response data return karein
 
     } catch (error) {
         handleApiError(error, `Text message to ${to}`);
@@ -1263,5 +1262,4 @@ async function sendExploreMenu(to, parentMenuId) {
 
 }
 
-}
 
