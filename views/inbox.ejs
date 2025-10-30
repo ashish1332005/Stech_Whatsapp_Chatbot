@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIY WhatsApp Team Inbox (EJS)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for better look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .chat-area { max-height: calc(100vh - 140px); }
+        .chat-messages { min-height: 400px; display: flex; flex-direction: column; justify-content: flex-end; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen antialiased text-gray-800">
+        <div class="flex flex-row h-full w-full overflow-x-hidden">
+            <!-- Chat List Panel (Left Side) -->
+            <div class="flex flex-col py-8 pl-6 pr-2 w-72 bg-white flex-shrink-0">
+                <div class="flex flex-row items-center justify-center h-12 w-full">
+                    <div class="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z"></path></svg>
+                    </div>
+                    <div class="ml-2 font-bold text-2xl">Team Inbox</div>
+                </div>
+                
+                <div class="flex flex-col mt-8 space-y-1 overflow-y-auto chat-list" id="chat-list-container">
+                    <!-- EJS Yahan Chats ki List Render Karega agar data available ho to -->
+                    <p id="chat-status-message" class="text-xs text-gray-500 p-2">Loading chats...</p>
+                    
+                </div>
+                <button id="refresh-button" class="mt-4 p-2 bg-indigo-500 text-white rounded-xl hover:bg-indigo-600 transition duration-150">Refresh Chats</button>
+            </div>
+            
+            <!-- Chat Messaging Panel (Right Side) -->
+            <div class="flex flex-col flex-auto h-full p-6">
+                <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-white p-4 h-full">
+                    <div id="active-chat-header" class="mb-4 p-2 border-b text-lg font-semibold text-gray-700">Select a Chat</div>
+                    
+                    <!-- Chat Area -->
+                    <div class="flex flex-col h-full overflow-x-auto mb-4 chat-area">
+                        <div class="flex flex-col h-full chat-messages" id="messages-container">
+                            <p class="text-center text-gray-500 italic">Click on a chat to view history.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Message Input Area -->
+                    <div id="input-area" class="flex flex-row items-center h-16 rounded-xl bg-gray-100 w-full px-4 border" style="display: none;">
+                        <div class="flex-grow ml-4">
+                            <div class="relative w-full">
+                                <input type="text" id="message-input" placeholder="Type your message here..."
+                                    class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10">
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <button id="send-button"
+                                class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0 transition duration-150 ease-in-out">
+                                <span>Send</span>
+                                <span class="ml-2">
+                                    <svg class="w-4 h-4 transform rotate-45 -mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT block should still be at the end -->
+    <script>
+        // NOTE: The core logic for fetching chats and sending replies MUST remain in JavaScript
+        // because the inbox needs to update dynamically without a full page reload.
+        let activeWaId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchChats();
+            document.getElementById('refresh-button').addEventListener('click', fetchChats);
+            document.getElementById('send-button').addEventListener('click', handleSendReply);
+            document.getElementById('message-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSendReply();
+                }
+            });
+
+            // Auto-refresh chats every 10 seconds (for simple real-time updates)
+            setInterval(fetchChats, 10000); 
+        });
+
+        // Utility function to format timestamp
+        const formatTime = (timestamp) => {
+            return new Date(timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        };
+        
+        // --- 1. Fetch Chat List from Backend ---
+        async function fetchChats() {
+            const chatListContainer = document.getElementById('chat-list-container');
+            const statusMessage = document.getElementById('chat-status-message');
+            statusMessage.textContent = 'Refreshing...';
+            chatListContainer.innerHTML = ''; // Clear existing list
+
+            try {
+                const response = await fetch('/api/chats');
+                if (!response.ok) throw new Error('Failed to fetch chats from API');
+                
+                const chats = await response.json();
+
+                if (chats.length === 0) {
+                    statusMessage.textContent = 'No active chats found.';
+                    statusMessage.style.display = 'block';
+                    return;
+                }
+
+                statusMessage.style.display = 'none';
+
+                chats.forEach(chat => {
+                    const chatItem = createChatItem(chat);
+                    chatListContainer.appendChild(chatItem);
+                });
+
+                // Re-select active chat if it exists (for persistent highlighting)
+                if (activeWaId) {
+                    setActiveChat(activeWaId);
+                }
+
+            } catch (error) {
+                console.error("Error fetching chats:", error);
+                statusMessage.style.display = 'block';
+                statusMessage.textContent = 'Error loading chats.';
+            }
+        }
+
+        function createChatItem(chat) {
+            const item = document.createElement('div');
+            // Status visualization: Red for live agent takeover, Green for bot mode.
+            const statusColor = chat.lastStatus === 'live_agent_mode' ? 'bg-red-50' : 'bg-green-50'; 
+            
+            item.className = `p-3 rounded-xl ${statusColor} hover:bg-gray-200 transition duration-150 ease-in-out cursor-pointer mb-2`;
+            item.dataset.waId = chat._id;
+
+            item.innerHTML = `
+                <p class="font-semibold text-sm">${chat._id} </p>
+                <p class="text-xs text-gray-600 truncate">${chat.lastMessage}</p>
+                <span class="text-xs font-medium ${chat.lastStatus === 'live_agent_mode' ? 'text-red-600' : 'text-green-600'}">
+                    ${chat.lastStatus === 'live_agent_mode' ? 'LIVE AGENT' : 'BOT MODE'}
+                </span>
+            `;
+
+            item.addEventListener('click', () => {
+                setActiveChat(chat._id);
+                fetchChatHistory(chat._id);
+            });
+
+            return item;
+        }
+
+        // --- 2. Fetch Message History ---
+        async function fetchChatHistory(waId) {
+            const messagesContainer = document.getElementById('messages-container');
+            document.getElementById('active-chat-header').textContent = `Chatting with: ${waId}`;
+            messagesContainer.innerHTML = '<p class="text-center text-gray-500">Loading history...</p>';
+
+            try {
+                const response = await fetch(`/api/chats/${waId}`);
+                if (!response.ok) throw new Error('Failed to fetch chat history');
+                
+                const history = await response.json();
+                
+                messagesContainer.innerHTML = ''; // Clear loading message
+
+                // Create a div wrapper for scrolling
+                const messageWrapper = document.createElement('div');
+                messageWrapper.className = 'grid grid-cols-12 gap-y-2 w-full';
+
+                history.forEach(msg => {
+                    messageWrapper.appendChild(createMessageBubble(msg));
+                });
+                
+                messagesContainer.appendChild(messageWrapper);
+                
+                // Scroll to the bottom of the chat area
+                const chatArea = document.querySelector('.chat-area');
+                chatArea.scrollTop = chatArea.scrollHeight;
+
+            } catch (error) {
+                console.error("Error fetching history:", error);
+                messagesContainer.innerHTML = `<p class="text-center text-red-500">Error: Could not load chat history for ${waId}.</p>`;
+            }
+        }
+
+        function createMessageBubble(msg) {
+            const isAgent = msg.direction === 'outbound';
+            const bubble = document.createElement('div');
+            
+            // Layout based on sender (Inbound/Outbound)
+            bubble.className = isAgent 
+                ? 'col-start-6 col-end-13 p-3 rounded-lg justify-self-end' 
+                : 'col-start-1 col-end-8 p-3 rounded-lg justify-self-start';
+
+            // Message content styling
+            const content = `
+                <div class="flex ${isAgent ? 'items-center justify-start flex-row-reverse' : 'flex-row items-center'}">
+                    <div class="flex items-center justify-center h-8 w-8 rounded-full ${isAgent ? 'bg-indigo-500' : 'bg-gray-300'} text-white flex-shrink-0 text-xs">
+                        ${isAgent ? 'AG' : 'US'}
+                    </div>
+                    <div class="relative ${isAgent ? 'mr-3' : 'ml-3'} text-sm ${isAgent ? 'bg-indigo-100' : 'bg-gray-100'} py-2 px-4 shadow rounded-xl">
+                        ${msg.content}
+                        <div class="text-right text-xs text-gray-500 mt-1">${formatTime(msg.timestamp)}</div>
+                    </div>
+                </div>
+            `;
+            bubble.innerHTML = content;
+            return bubble;
+        }
+
+        function setActiveChat(waId) {
+            activeWaId = waId;
+            document.getElementById('input-area').style.display = 'flex';
+            document.getElementById('message-input').focus();
+            
+            // Highlight the active chat in the list
+            document.querySelectorAll('.chat-list > div').forEach(item => {
+                item.classList.remove('border-2', 'border-indigo-500');
+                if (item.dataset.waId === waId) {
+                    item.classList.add('border-2', 'border-indigo-500');
+                }
+            });
+        }
+
+        // --- 3. Send Reply Logic ---
+        async function handleSendReply() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+
+            if (!activeWaId || message === '') {
+                // IMPORTANT: Replacing alert() with a custom notification (or console log)
+                console.warn('Reply attempt failed: Please select a chat and type a message.'); 
+                return;
+            }
+
+            // Temporarily add message to UI for quick feedback
+            const tempMsg = { 
+                content: message, 
+                direction: 'outbound', 
+                timestamp: new Date().toISOString() 
+            };
+            document.getElementById('messages-container').querySelector('.grid').appendChild(createMessageBubble(tempMsg));
+            
+            input.value = ''; // Clear input field
+            document.querySelector('.chat-area').scrollTop = document.querySelector('.chat-area').scrollHeight; // Scroll to bottom
+
+            try {
+                const response = await fetch('/api/reply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ waId: activeWaId, message: message })
+                });
+
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    console.error("API Reply Error:", result);
+                    // Show error in UI
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'text-red-500 text-sm mt-2';
+                    errorMsg.textContent = `Error: Reply failed. Check console.`;
+                    document.getElementById('messages-container').appendChild(errorMsg);
+                    // Re-render chat history to confirm final status
+                    fetchChatHistory(activeWaId); 
+                } else {
+                    console.log("Reply sent successfully:", result.message);
+                    // Refresh chat list to show new last message/status
+                    fetchChats(); 
+                }
+
+            } catch (error) {
+                console.error("Fetch error during reply:", error);
+                // Show error in UI
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'text-red-500 text-sm mt-2';
+                errorMsg.textContent = `Network Error: Could not reach server.`;
+                document.getElementById('messages-container').appendChild(errorMsg);
+            }
+        }
+    </script>
+</body>
+</html>
