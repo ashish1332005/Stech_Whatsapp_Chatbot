@@ -289,7 +289,6 @@ app.post('/api/reply', async (req, res) => {
 });
 
 
-
 app.get('/', (req, res) => {
     res.status(200).send('WhatsApp Chatbot Server is running successfully!');
 });
