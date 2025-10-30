@@ -205,6 +205,7 @@ app.post("/webhook", async (req, res) => {
 
     res.sendStatus(200);
 });
+<<<<<<< HEAD
 
 // ----------------- INBOX ROUTES -----------------
 
@@ -288,6 +289,11 @@ app.post('/api/reply', async (req, res) => {
 });
 
 
+=======
+app.get('/', (req, res) => {
+    res.status(200).send('WhatsApp Chatbot Server is running successfully!');
+});
+>>>>>>> 98064b3def888ba92b85a85dbefd1c690755d781
 // ----------------- SERVER START -----------------
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);

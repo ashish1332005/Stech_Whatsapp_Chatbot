@@ -2,8 +2,12 @@
 
 import axios from "axios";
 import crypto from "crypto";
+<<<<<<< HEAD
 import 'dotenv/config'; 
 import Message from '../models/Message.js';
+=======
+
+>>>>>>> 98064b3def888ba92b85a85dbefd1c690755d781
 import {
     API_URL,
     WHATSAPP_HEADERS,
@@ -208,16 +212,29 @@ export async function sendTextMessage(to, text, isAgentReply = false) {
             { messaging_product: "whatsapp", to, type: "text", text: { body: text } },
             { headers: WHATSAPP_HEADERS }
         );
+<<<<<<< HEAD
         
         // --- DATABASE SAVE (Outgoing) ---
         await saveOutgoingMessage(to, text, isAgentReply);
         // --------------------------------
 
         return response.data; // Response data return karein
+=======
+>>>>>>> 98064b3def888ba92b85a85dbefd1c690755d781
     } catch (error) {
         handleApiError(error, `Text message to ${to}`);
     }
 }
+<<<<<<< HEAD
+=======
+
+/**
+ * Send media (image/video). finalUrl resolution:
+ * - if precomputedUrl provided -> use it
+ * - else if isUrl true -> mediaIdOrUrl is an url
+ * - else assume mediaIdOrUrl is a Google Drive ID and build download link
+ */
+>>>>>>> 98064b3def888ba92b85a85dbefd1c690755d781
 export async function sendMediaMessage(to, mediaIdOrUrl, caption = '', type = 'image', isUrl = false, precomputedUrl = null) {
     let finalUrl = precomputedUrl || (isUrl ? mediaIdOrUrl : `${GOOGLE_DRIVE_BASE_URL}${mediaIdOrUrl}`);
     try {
@@ -1245,4 +1262,8 @@ async function sendExploreMenu(to, parentMenuId) {
     } catch (error) {
         handleApiError(error, `Explore Menu to ${to}`);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 98064b3def888ba92b85a85dbefd1c690755d781
