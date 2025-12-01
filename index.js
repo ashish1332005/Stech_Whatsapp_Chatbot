@@ -245,43 +245,55 @@ app.get('/api/chats/:waId', async (req, res) => {
     }
 });
 
-// API endpoint for Agent to send a message (NEW ROUTE)
+
 // API endpoint for Agent to send a message
 app.post('/api/reply', async (req, res) => {
     const { waId, message } = req.body;
 
-    // Validation
+    console.log(`[API] Received reply request for ${waId}: ${message}`);
+
     if (!waId || !message) {
         return res.status(400).json({ error: "waId and message are required." });
     }
 
     try {
-        // 1. Send the message via WhatsApp Cloud API
-        // (Make sure sendTextMessage handles the actual API call)
+        // 1. Send to WhatsApp Cloud API first
+        console.log("[API] Sending to WhatsApp...");
         await sendTextMessage(waId, message, true);
+        console.log("[API] WhatsApp sent successfully.");
 
-        // 2. SAVE THE MESSAGE TO DATABASE (Crucial Step)
+        // 2. Generate a unique ID for our internal database
+        // This prevents "Duplicate Key" errors if your DB has a unique index on metaId
+        const agentMetaId = `agent_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // 3. Create the Database Object
         const outboundMsg = new Message({
             waId: waId,
-            content: message,           // The text you typed
-            direction: 'outbound',      // Marks it as sent by YOU (Agent)
-            chatStatus: 'live_agent_mode', // Updates status so bot stays silent
-            timestamp: new Date()
+            content: message,
+            direction: 'outbound',
+            chatStatus: 'live_agent_mode',
+            timestamp: new Date(),
+            metaId: agentMetaId // <--- FIX: Adding a unique ID here
         });
 
-        await outboundMsg.save(); // Saves to MongoDB
-        console.log(`[DB] Outbound reply saved for ${waId}`);
+        // 4. Save to MongoDB
+        console.log("[DB] Attempting to save to MongoDB...");
+        const savedMessage = await outboundMsg.save();
+        console.log(`[DB] ✅ Outbound message saved! ID: ${savedMessage._id}`);
 
-        // 3. Send Success Response
         res.status(200).json({ success: true, message: "Reply sent and saved." });
 
     } catch (error) {
-        console.error("Error sending agent reply:", error);
-        res.status(500).json({ error: "Failed to send message via API or save to DB." });
+        console.error("❌ ERROR inside /api/reply:", error);
+        
+        // Detailed error for debugging
+        if (error.code === 11000) {
+            console.error("Duplicate Key Error. This means metaId is conflicting.");
+        }
+
+        res.status(500).json({ error: "Failed to process reply." });
     }
 });
-
-
 // ----------------- SERVER START -----------------
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
