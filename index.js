@@ -246,25 +246,37 @@ app.get('/api/chats/:waId', async (req, res) => {
 });
 
 // API endpoint for Agent to send a message (NEW ROUTE)
+// API endpoint for Agent to send a message
 app.post('/api/reply', async (req, res) => {
     const { waId, message } = req.body;
 
+    // Validation
     if (!waId || !message) {
         return res.status(400).json({ error: "waId and message are required." });
     }
 
     try {
-        // 1. Send the message via WhatsApp Cloud API (isAgentReply = true)
+        // 1. Send the message via WhatsApp Cloud API
+        // (Make sure sendTextMessage handles the actual API call)
         await sendTextMessage(waId, message, true);
 
-        // 2. Update chat status to reflect recent agent activity
-        await Message.updateOne({ waId: waId }, { $set: { chatStatus: 'live_agent_mode' } });
+        // 2. SAVE THE MESSAGE TO DATABASE (Crucial Step)
+        const outboundMsg = new Message({
+            waId: waId,
+            content: message,           // The text you typed
+            direction: 'outbound',      // Marks it as sent by YOU (Agent)
+            chatStatus: 'live_agent_mode', // Updates status so bot stays silent
+            timestamp: new Date()
+        });
 
+        await outboundMsg.save(); // Saves to MongoDB
+        console.log(`[DB] Outbound reply saved for ${waId}`);
+
+        // 3. Send Success Response
         res.status(200).json({ success: true, message: "Reply sent and saved." });
 
     } catch (error) {
         console.error("Error sending agent reply:", error);
-        // sendTextMessage mein error hua hai, toh outgoing save nahi hua hoga, sirf API error aaya hai.
         res.status(500).json({ error: "Failed to send message via API or save to DB." });
     }
 });
