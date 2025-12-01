@@ -197,10 +197,18 @@
         });
 
         // Utility function to format timestamp 
-      const formatTime = (timestamp) => {
+const formatTime = (timestamp) => {
+    // 1. If timestamp is missing or null, return empty
     if (!timestamp) return '';
     
     const date = new Date(timestamp);
+    
+    // 2. IMPORTANT: Check if the date is valid. 
+    // If the database sent bad data, this prevents "Invalid Date" from showing.
+    if (isNaN(date.getTime())) {
+        return ''; 
+    }
+
     const now = new Date();
     
     // Check if the date is today
@@ -218,13 +226,13 @@
         // If today, show only time (e.g., "10:30 am")
         return timeString;
     } else {
-        // If older, show Date + Time (e.g., "01/12/25 10:30 am")
+        // If older, show Date + Time (e.g., "01/12/25")
         const dateString = date.toLocaleDateString('en-IN', { 
             day: '2-digit', 
             month: '2-digit', 
             year: '2-digit' 
         });
-        return `${dateString} ${timeString}`;
+        return dateString; // Keeping list view clean with just date
     }
 };
         
@@ -465,4 +473,5 @@
     </script>
 </body>
 </html>
+
 
