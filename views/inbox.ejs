@@ -197,9 +197,36 @@
         });
 
         // Utility function to format timestamp 
-        const formatTime = (timestamp) => {
-            return new Date(timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-        };
+      const formatTime = (timestamp) => {
+    if (!timestamp) return '';
+    
+    const date = new Date(timestamp);
+    const now = new Date();
+    
+    // Check if the date is today
+    const isToday = date.getDate() === now.getDate() &&
+                    date.getMonth() === now.getMonth() &&
+                    date.getFullYear() === now.getFullYear();
+
+    const timeString = date.toLocaleTimeString('en-IN', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true 
+    });
+
+    if (isToday) {
+        // If today, show only time (e.g., "10:30 am")
+        return timeString;
+    } else {
+        // If older, show Date + Time (e.g., "01/12/25 10:30 am")
+        const dateString = date.toLocaleDateString('en-IN', { 
+            day: '2-digit', 
+            month: '2-digit', 
+            year: '2-digit' 
+        });
+        return `${dateString} ${timeString}`;
+    }
+};
         
         // --- 1. Fetch Chat List from Backend ---
         async function fetchChats() {
@@ -438,3 +465,4 @@
     </script>
 </body>
 </html>
+
