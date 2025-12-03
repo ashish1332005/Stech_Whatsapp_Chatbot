@@ -273,7 +273,7 @@ app.post('/api/reply', async (req, res) => {
             direction: 'outbound',
             chatStatus: 'live_agent_mode',
             timestamp: new Date(),
-            metaId: agentMetaId // <--- FIX: Adding a unique ID here
+           metaId: message.id || `fallback_${Date.now()}_${Math.random()}`,
         });
 
         // 4. Save to MongoDB
