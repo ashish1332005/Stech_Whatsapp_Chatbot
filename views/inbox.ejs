@@ -20,12 +20,12 @@
     scroll-behavior: smooth;
 }
         /* Container for chat bubbles */
-        .chat-area-container { 
-            max-height: calc(100vh - 120px); /* Adjusted for WhatsApp style top/bottom bars */
-            min-height: calc(100vh - 120px);
-            overflow-y: auto;
-        }
-
+        .chat-area-container {
+   
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
+    scroll-behavior: smooth;
+}
         /* Message Bubble Styling (WhatsApp Style) */
         .message-bubble {
             box-shadow: 0 1px 0.5px rgba(11, 20, 26, .13);
@@ -90,7 +90,7 @@
             
            <div id="chat-messaging-panel" class="chat-messaging-panel-wrapper flex flex-col flex-auto h-full w-full md:w-auto relative">
     
-    <div class="flex flex-col flex-auto flex-shrink-0 h-full w-full">
+  <div class="flex flex-col flex-auto flex-shrink-0 h-full w-full overflow-hidden">
         
         <div class="flex items-center h-16 bg-[#075E54] text-white p-4 justify-between shadow-md">
             <div class="flex items-center">
@@ -512,6 +512,7 @@ const formatTime = (timestamp) => {
     </script>
 </body>
 </html>
+
 
 
 
