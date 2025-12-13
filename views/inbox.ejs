@@ -15,7 +15,10 @@
         .chat-messaging-panel {
             background-color: #ECE5DD; /* Light canvas/wallpaper color */
         }
-
+.chat-area-container {
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+    scroll-behavior: smooth;
+}
         /* Container for chat bubbles */
         .chat-area-container { 
             max-height: calc(100vh - 120px); /* Adjusted for WhatsApp style top/bottom bars */
@@ -113,7 +116,18 @@
                             </p>
                         </div>
                     </div>
-                    
+                    <div id="chat-messaging-panel" class="chat-messaging-panel-wrapper flex flex-col flex-auto h-full w-full md:w-auto relative"> <div class="flex flex-col h-full overflow-y-auto p-3 chat-area-container scroll-smooth"> <div class="flex flex-col h-full chat-messages" id="messages-container">
+            </div>
+    </div>
+
+    <button id="scroll-bottom-btn" 
+            class="hidden absolute bottom-24 right-6 bg-white p-2 rounded-full shadow-lg text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all duration-200 z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+        </button>
+    
+    </div>
                     <div id="input-area" class="flex flex-row items-center h-20 bg-gray-50 w-full px-4 border-t border-gray-200" style="display: none;">
                         <div class="flex-grow">
                             <div class="relative w-full">
@@ -470,8 +484,38 @@ const formatTime = (timestamp) => {
                 messageWrapper.appendChild(errorMsg);
             }
         }
+// --- Scroll Button Logic ---
+    const chatContainer = document.querySelector('.chat-area-container');
+    const scrollBtn = document.getElementById('scroll-bottom-btn');
+
+    // 1. Show/Hide button based on scroll position
+    chatContainer.addEventListener('scroll', () => {
+        // Calculate how far user is from bottom
+        const distanceToBottom = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight;
+        
+        // If user is more than 100px away from bottom, show button
+        if (distanceToBottom > 150) {
+            scrollBtn.classList.remove('hidden');
+            scrollBtn.classList.add('flex'); // Use flex to center icon
+        } else {
+            scrollBtn.classList.add('hidden');
+            scrollBtn.classList.remove('flex');
+        }
+    });
+
+    // 2. Click event to scroll to bottom
+    scrollBtn.addEventListener('click', () => {
+        chatContainer.scrollTo({
+            top: chatContainer.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+
+    // 3. Update existing fetchChatHistory function to hide button initially
+    // (Ye logic ensure karega ki jab nayi chat khule, button hidden rahe)
     </script>
 </body>
 </html>
+
 
 
