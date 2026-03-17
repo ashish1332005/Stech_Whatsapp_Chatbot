@@ -19,7 +19,7 @@ export const WHATSAPP_HEADERS = {
 // --- URL CONSTANTS (Defined ONCE) ---
 export const URL_COLLEGE_COURSES_DETAIL = 'https://docs.google.com/document/d/1VYzC9gL7Zdw7nLsWuzr35zyWCbOU-_3g/edit?usp=sharing';
 export const URL_CBSE_FEES_PN_DETAIL = 'https://drive.google.com/file/d/1po7s23rIaLDDCoU86r7BXhG6pFotJUjB/view?usp=sharing';
-export const URL_CBSE_FEES_PS_DETAIL = 'https://drive.google.com/file/d/1qDnUvYYQ7RwPg1Ks1Y1xCNSfiCEZQyOx/view?usp=sharing';
+export const URL_CBSE_FEES_PS_DETAIL = 'https://drive.google.com/file/d/1Rao_YHQJ36E5JWeRb-RnN8mljJtdZWB9/view?usp=sharing';
 
 // Direct Website Links
 export const URL_WEB_CBSE = 'https://stechbhl.in/school-2/';
