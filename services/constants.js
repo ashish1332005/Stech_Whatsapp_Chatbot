@@ -279,6 +279,6 @@ PARAMED_NEWS: { en: "📰 *Paramedical Department News*\n\nStay updated with the
     HELPDESK_TEXT: { en: "ℹ️ *Help Desk / Support*\n\n1️⃣ Admission Enquiry: +91 83868 22849\n2️⃣ General Enquiry: +91 63780 87099\n3️⃣ Email: info@stechbhl.in\n\n📘 *Download the latest prospectus and brochure below.*", hi: "ℹ️ *सहायता डेस्क / सपोर्ट*\n\n1️⃣ प्रवेश पूछताछ: *83868 22849*\n2️⃣ सामान्य पूछताछ: *63780 87099*\n3️⃣ ईमेल: *info@stechbhl.in*\n\n📘 *नवीनतम प्रॉस्पेक्टस और ब्रोशर नीचे उपलब्ध है।*" },
 
    ADMISSIONS_DIRECT_TEXT: {
-    en: "📞 *S-Tech Bhilwara Admissions Team*\n\nFor immediate assistance:\n📱 Phone: +91 83868 22849 (Admissions Hotline)\n📧 Email: info@stechbhl.in\n🔗 Admission Enquiry Form: https://stechbhl.blogspot.com/2025/04/admission-inquiry-form.html",
+    en: "📞 *S-Tech Bhilwara Admissions Team*\n\nFor immediate assistance:\n📱 Phone: +91 83868 22849 (Admissions Hotline)\n📧 Email: info@stechbhl.in\n🔗 Admission Enquiry Form:https://stechbhl.blogspot.com/2025/04/admission-inquiry-form.html",
     hi: "📞 *S-Tech भीलवाड़ा प्रवेश टीम*\n\nतुरंत सहायता के लिए:\n📱 फोन: +91 83868 22849 (एडमिशन हेल्पलाइन)\n📧 ईमेल: info@stechbhl.in\n🔗 प्रवेश पूछताछ फॉर्म: https://stechbhl.blogspot.com/2025/04/admission-inquiry-form.html"
 }};
